@@ -15,6 +15,8 @@
  //внешнее обявление глобальной переменной
 extern HDC hdc;      // объявим  контекст устройства
 
+// Макрос для проверки состояния клавиатуры – из ШАБЛОНА
+#define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 
 	/*----------------------------------------------------------------*/
 	/*             Р Е А Л И З А Ц И Я    М Е Т О Д О В               */
@@ -32,9 +34,9 @@ Location::Location(int InitX, int InitY) //конструктор
 };//end Location::Location()
 
  
-Location::~Location(void)  //деструктор 
-{//формально пустое тело
-};//end Location::~Location()
+//Location::~Location(void)  //деструктор 
+//{//формально пустое тело
+//};//end Location::~Location()
 
  
 int Location::GetX(void)  //получить X координату точки
@@ -61,9 +63,9 @@ Point::Point(int InitX, int InitY) : Location(InitX, InitY) //конструктор
 }//end Point::Point()
 
 
-Point::~Point(void)  //деструктор  
-{//формально пустое тело
-}//end Point::~Point()
+//Point::~Point(void)  //деструктор  
+//{//формально пустое тело
+//}//end Point::~Point()
 
 
 void Point::Show(void)  //показать ТОЧКУ
@@ -79,7 +81,7 @@ void Point::Show(void)  //показать ТОЧКУ
 
 void Point::Hide(void)  //скрыть ТОЧКУ
 {
-	Visible = false;
+	Visible = false; // ЗАЧЕМ?
 
 	SetPixel(hdc, X, Y, RGB(0, 0, 255));//рисуем синим цветом или фона
 	SetPixel(hdc, X + 1, Y, RGB(0, 0, 255));
@@ -104,24 +106,70 @@ void Point::MoveTo(int NewX, int NewY) //переместить ТОЧКУ
 	Show();		//показать точку на новом месте
 };//end Point::MoveTo()
 
+void Point::Drag(int Step) //переместить ТОЧКУ
+{
+	int FigX, FigY; // новые координаты фигуры
+
+	FigX = GetX();    //получаем начальное положение фигуры
+	FigY = GetY();
+
+	while (1)	//бесконечный цикл буксировки фигуры
+	{
+		if (KEY_DOWN(VK_ESCAPE))     //конец работы 27 пробел
+			break;
+
+		//направление движения объекта
+
+		if (KEY_DOWN(VK_LEFT)) //стрелка влево  37
+		{
+			FigX -= Step;
+			MoveTo(FigX, FigY);
+			Sleep(500);
+		}//end if
+
+		if (KEY_DOWN(VK_RIGHT)) //стрелка вправо  39
+		{
+			FigX += Step;
+			MoveTo(FigX, FigY);
+			Sleep(500);
+		}//end if
+
+		if (KEY_DOWN(VK_DOWN)) //стрелка вниз  40
+		{
+			FigY += Step;
+			MoveTo(FigX, FigY);
+			Sleep(500);
+		}//end if
+
+		if (KEY_DOWN(VK_UP)) //стрелка вверх  38
+		{
+			FigY -= Step;
+			MoveTo(FigX, FigY);
+			Sleep(500);
+		}//end if
+	}   //while
+	
+};//end Point::Drag()
+
+
 		/*----------------------------------------*/
 		/*        МЕТОДЫ КЛАССА Circle            */
 		/*----------------------------------------*/
 
 //для инициализации закрытых полей используем конструктор предка
-Circle::Circle(int InitX, int InitY, int InitRadius) :Point(InitX, InitY) // конструктор Circle
+Car::Car(int InitX, int InitY, int InitSpeed) : Point(InitX, InitY) // конструктор Circle
 {
 	//инициализация закрытых переменных своего класса
-	Radius = InitRadius;
+	Speed = InitSpeed;
 }//end Circle::Circle ()
 
 
-Circle::~Circle(void) // деструктор
-{ //формально пустое тело
-};//end Circle::~Circle ()
+//Circle::~Circle(void) // деструктор
+//{ //формально пустое тело
+//};//end Circle::~Circle ()
 
 
-void Circle::Show(void) // показать круг
+void Car::Show(void) // показать круг
 {
 	Visible = true;
 
@@ -130,26 +178,28 @@ void Circle::Show(void) // показать круг
 	SelectObject(hdc, Pen);	//сделаем перо активным
 
 	// Нарисуем круг установленным цветом
-	Ellipse(hdc, X - Radius, Y - Radius, X + Radius, Y + Radius);
-
+	Rectangle(hdc, X - 100, Y - 70, X - 280, Y - 140);
+	Rectangle(hdc, X, Y, X - 370, Y - 70);
+	Ellipse(hdc, X - 115, Y + 35, X - 45, Y - 35);
+	Ellipse(hdc, X - 325, Y + 35, X - 255, Y - 35);
 	// Уничтожим нами созданные объекты  
 	DeleteObject(Pen);
 
 } // end Circle::Show()
 
 
-void Circle::Hide(void) // скрыть круг
+void Car::Hide(void) // скрыть круг
 {
 	Visible = false;
 
 	// Зададим перо и цвет пера
 	HPEN Pen = ::CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); //синий
-	//	HPEN Pen=::CreatePen(PS_SOLID,2,RGB(255,255,255));
+
 	SelectObject(hdc, Pen);
 
 	// Нарисуем круг установленным цветом
-	Ellipse(hdc, X - Radius, Y - Radius, X + Radius, Y + Radius);
-
+	Ellipse(hdc, X - Speed, Y - Speed, X + Speed, Y + Speed);
+	Rectangle(hdc, 400, 300, 30, 20);
 	// Уничтожим нами созданные объекты  
 	DeleteObject(Pen);
 
@@ -158,7 +208,8 @@ void Circle::Hide(void) // скрыть круг
 // попробуем взять из Point   !!!! 
 // в разделе объявления есть, а в разделе реализации нет  !!!
 
-void Circle::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
+
+void Car::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
 {
 	Hide();  //стирание старой окружности
 	X = NewX; //поменять координаты
@@ -167,19 +218,23 @@ void Circle::MoveTo(int NewX, int NewY) // поставить в соответствие новые коорди
 }//end Circle::MoveTo()
 
 
-void Circle::Expand(int DeltaRad)  //увеличить радиус КРУГА
+void Car::Expand(int DeltaRad)  //увеличить радиус КРУГА
 {
 	Hide();             //спрятать окружность со старым радиусом
-	Radius += DeltaRad; //изменить радиус 
-	if (Radius < 0)     //для отрицательного приращения радиуса
-		Radius = 5;
+	Speed += DeltaRad; //изменить радиус 
+	if (Speed < 0)     //для отрицательного приращения радиуса
+		Speed = 5;
 	Show();             //показать окружность с новым радиусом
 }//end Circle::Expand ()
 
 
-void Circle::Reduce(int DeltaRad) //уменьшить радиус КРУГА
+void Car::Reduce(int DeltaRad) //уменьшить радиус КРУГА
 {
 	Expand(-DeltaRad); //отрицательное приращение радиуса
 }//end Circle::Reduce ()
+
+
+		
+
 
 /**************   End of File Point05_03.СPP   ********************/

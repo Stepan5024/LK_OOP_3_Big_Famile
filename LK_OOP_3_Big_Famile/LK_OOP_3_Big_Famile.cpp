@@ -49,9 +49,10 @@ int main()
 	setlocale(LC_ALL, "Russian");
 
 	//объявление и инициализация переменных
-	int x0 = 130, y0 = 250;  //стартовые координаты центра
-	int Radius0 = 50;     //начальное значение радиуса
-	int DeltaRad = 30;     //начальное изменение радиуса
+	int x0 = 400, y0 = 300;  //стартовые координаты центра
+	int x1 = 700, y1 = 800;  //стартовые координаты центра
+	int Speed0 = 50;     //начальное значение скорости
+	int DeltaSpeed = 30;     //начальное изменение скорости
 
 						 //получим дескриптор консольного окна
 	HWND hwnd = GetConcolWindow();
@@ -67,8 +68,8 @@ int main()
 		{
 			//===================================================================
 
-			//	М Е С Т О    В С Т А В К И 	
-
+		
+			/************  Т О Ч К А  ***********/
 			Point APoint(x0, y0);	//инициализация точки
 			APoint.Show();			//показать точку
 
@@ -77,37 +78,42 @@ int main()
 				if (KEY_DOWN(49))   //цифра 1 
 					break;
 
-			Circle  ACircle(x0, y0, Radius0);  //инициализация окружности
-
-			ACircle.Show();			//показать окружность
+			/************  К Р У Г   ***********/
+			Car  ACar(600, 400, Speed0);  //инициализация окружности
+			Car  BCar(720, 200, Speed0);  //инициализация окружности
+			BCar.Show();
+			ACar.Show();			//показать окружность
 			while (1)
 				if (KEY_DOWN(50))	//цифра 2        
 					break;
 
 			//переместили ТОЧКУ/ОКРУЖНОСТЬ наверх
-			ACircle.MoveTo(x0, y0 - 2 * Radius0);
+			ACar.MoveTo(x0, y0 - 2 * Speed0);
 			while (1)
 				if (KEY_DOWN(51))	//цифра 3
 					break;
 
-			ACircle.Show();			//показать окружность
+			ACar.Show();			//показать окружность
 			while (1)
 				if (KEY_DOWN(52))	//цифра 4        
 					break;
 
 			//увеличить радиус окружности на DeltaRad
-			ACircle.Expand(DeltaRad);
+			ACar.Expand(DeltaSpeed);
 			while (1)
 				if (KEY_DOWN(53))	//цифра 5        
 					break;
 
 			//уменьшить радиус окружности на DeltaRad1
-			ACircle.Reduce(DeltaRad);
+			ACar.Reduce(DeltaSpeed);
 			while (1)
 				if (KEY_DOWN(54))	//цифра 6
 					break;
 
 			//===================================================================
+
+
+
 		}// end if
 	}// end if
 }//end main()

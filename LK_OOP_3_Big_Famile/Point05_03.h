@@ -21,7 +21,7 @@ protected:		//предоставляет возможность потомкам (производному
 public:   //эти методы доступны извне всем в программе
 
 	Location(int InitX, int InitY); //конструктор
-	~Location();                    //деструктор
+	//~Location();                    //деструктор
 	int GetX();						//получить X координату точки
 	int GetY();						//получить Y координату точки
 };//end class Location
@@ -33,40 +33,60 @@ class Point : public Location
 	// атрибут public в объявлении производного класса означает
 	// возможность вызова любого из полей и методов, унаследованных
 	// от Location
-
+	// поле отвечающее за цвет
 protected:							//классам, производным от Point, потребуется доступ public
 	bool Visible;					//светится точка или нет
 
 public:
 	Point(int InitX, int InitY);	//конструктор класса
-	~Point();						//деструктор
+	//~Point();						//деструктор
 	void Show();					//показать фигуру ТОЧКА
 	void Hide();					//скрыть фигуру ТОЧКА
 	bool IsVisible();				//узнать про светимость точки
 	void MoveTo(int NewX, int NewY);//переместить фигуру
+	void Drag(int Step); // Буксировка фигуры
 };//end class Point
 
 
-//************************ новый класс **********************************/
 /*-----------------------  Класс Circle  -------------------------------*/
 //производный от Point класс Circle с атрибутом public и по определению
 // производный от Location
 
-class Circle : public Point
+class Car : public Point
 {
 private:		//необязательно , т.к. по умолчанию
-	int Radius;	//радиус круга
+	int Speed;	 
 public:
 	//конструктор с параметрами по умолчанию
-	Circle(int InitX = 10, int InitY = 10, int InitRdius = 10); // по умолчанию параметры конструктора
-	~Circle();					//деструктор
-	int GetRadius() { return Radius; }; // получить текущий радиус
-	void SetRadius(int NewRadius) { Radius = NewRadius; }; // установить новый радиус
-	void Show();				//показать фигуру КРУГ
-	void Hide();				//скрыть фигуру КРУГ
+	Car(int InitX = 10, int InitY = 10, int InitSpeed = 100); // по умолчанию параметры конструктора
+	//~Circle();					// деструктор
+	int GetSpeed() { return Speed; }; // получить текущую скорость
+	void SetSpeed(int NewSpeed) { Speed = NewSpeed; }; // установить новый радиус
+	void Show();				// показать фигуру  
+	void Hide();				// скрыть фигуру 
 	void MoveTo(int NewX, int NewY);  //берем из Point !!!!!!!
-	void Expand(int DeltaRad);	//увеличить радиус КРУГА
-	void Reduce(int DeltaRad);	//уменьшить радиус КРУГА
-};//end class Circle
+	void Expand(int DeltaRad);	// увеличить  
+	void Reduce(int DeltaRad);	// уменьшить  
+};//end class Car
 
+//************************ новый класс **********************************/
+/*-----------------------  Класс Car  -------------------------------*/
+//производный от Point класс Circle с атрибутом public и по определению
+// производный от Location
+
+/*class Car : public Point
+{
+private:		// необязательно , т.к. по умолчанию
+	int Speed;	// скорость машины
+public:
+	//конструктор с параметрами по умолчанию
+	Car(int InitSpeed); // конструктор
+	~Car();				//деструктор
+	int GetSpeed() { return Speed; }; // получить текущий радиус
+	void SetSpeed(int NewSpeed) { Speed = NewSpeed; }; // установить новый радиус
+	virtual void Show();				//показать фигуру машину
+	virtual void Hide();				//скрыть фигуру машину
+	void MoveTo(int NewX, int NewY);  //берем из Point !
+	
+};//end class Circle*/
 /******************   End of File Point05_03.h *****************/
