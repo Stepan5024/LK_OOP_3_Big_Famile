@@ -13,6 +13,7 @@ using namespace std;        // Пространство имен std
 
 #include "ModelingCar.h" 	//объявление классов
 #include "GetConWin.h"		//указатель на консольное окно
+#include "CarExhaustPipe.h"
 
 //макрос для определения кода нажатой клавиши
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
@@ -75,14 +76,19 @@ int main()
 			
 			*/
 			/************  К Р У Г   ***********/
-			Base ABase(900,200, 700, 40, "red");
-
+			Base ABase(900, 200, 700, 40, "red");
 			ABase.Show();
 
-			Car  BCar(720, 200, 500, 50, "red");  //инициализация машины
-			//BCar.Show();
-			Car  ACar(900, 400, 300, 50, "red");  //инициализация машины
+			Car  ACar(950, 400, 300, 50, "red");  //инициализация машины
 			ACar.Show();			//показать машину
+
+			CarWithHood ACarWithHood(350, 350, 300, 50, "red");
+			ACarWithHood.Show();
+			
+			CarExhaustPipe ACarExhaustPipe(700, 550, 500, 50, "red");
+			ACarExhaustPipe.Show();
+
+			
 
 			/*while (1)
 				if (KEY_DOWN(50))	//цифра 2        

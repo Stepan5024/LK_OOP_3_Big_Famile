@@ -49,7 +49,7 @@ public:
 	void DrawBaseBody(); // отрисует основу на которую садятся колеса
 	void DrawBaseWheels(); // отрисует колеса
 
-	void HideBackBase();
+	void HideBaseBody();
 	void HideBaseWheels();
 	virtual void Show();
 	virtual void Hide();
@@ -67,20 +67,27 @@ public:
 class Car : public Base
 {
 private:		//необязательно , т.к. по умолчанию
-	int MaxSpeed; // максимальная скорость
+	//int MaxSpeed; // максимальная скорость
 public:
 	//конструктор с параметрами по умолчанию
 	Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
 	
 	virtual void Show();				// показать фигуру  
 	virtual void Hide();				// скрыть фигуру 
-	void DrawCarCabin(); // нарисовать кабину
-	void DrawCarHood(); // нарисовать капот
-	void DrawCarBack(); // нарисовать багажник
-	void DrawExhaustPipe(); // выхлопная труба
+	void DrawCarCabin(); // нарисовать кабину с окном
+	void HideCarCabin(); // нарисовать кабину с окном
+	
 };//end class Car
 
-//************************ новый класс **********************************/
-/*-----------------------  Класс Car  -------------------------------*/
-//производный от Point класс Circle с атрибутом public и по определению
-// производный от Location
+class CarWithHood : public Car { // машина с капотом
+
+public:
+	// конструктор с параметрами по умолчанию
+	CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
+
+	virtual void Show();				// показать фигуру  
+	virtual void Hide();				// скрыть фигуру 
+	void DrawCarHood(); // нарисовать капот
+	void HideCarHood(); // нарисовать капот
+
+};
