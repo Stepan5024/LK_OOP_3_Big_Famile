@@ -39,21 +39,23 @@ public:   // эти методы доступны извне всем в программе
 class Base : public Location {
 private:
 	
-	int BackCarLenght; // длина корпуса
-	int CabinLenght; // длина кабины
-	int HoodLenght; // длина капота
+	int BodyCarLenght; // длина корпуса
+	int Speed;
 	std::string BaseColor; // цвет корпуса
 
 public:
 	// конструктор класса
-	Base(int InitX, int InitY, int InitBackCarLenght = 80, int InitCabinLenght = 50, int InitHoodLenght = 80, std::string InitBaseColor = "red");
-	virtual void DrawBackBase();
-	virtual void DrawBaseWheels();
-	virtual void HideBackBase();
-	virtual void hideBaseWheels();
+	Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red");
+	void DrawBaseBody(); // отрисует основу на которую садятся колеса
+	void DrawBaseWheels(); // отрисует колеса
+
+	void HideBackBase();
+	void HideBaseWheels();
 	virtual void Show();
 	virtual void Hide();
-	virtual int GetMaxSpeed() = 0;
+	int GetMaxSpeed() { return Speed; }; // получить текущую скорость
+	void SetSpeed(int NewSpeed) { Speed = NewSpeed; }; // установить новый радиус
+	int GetBaseLenght() { return BodyCarLenght; }; // получить длину корпуса
 	void Drag(); // передвижение фигуры по стрелкам
 	void MoveTo(int NewX, int NewY);  //берем из Point !!!!!!!
 }; // end class Base
@@ -68,13 +70,14 @@ private:		//необязательно , т.к. по умолчанию
 	int MaxSpeed; // максимальная скорость
 public:
 	//конструктор с параметрами по умолчанию
-	Car(int InitX, int InitY, int InitBackCarLenght = 80, int InitCabinLenght = 50, int InitHoodLenght = 80, std::string InitBaseColor = "red", int InitMaxSpeed = 50); // по умолчанию параметры конструктора
-	int GetMaxSpeed() { return MaxSpeed; }; // получить текущую скорость
-	void SetSpeed(int NewSpeed) { MaxSpeed = NewSpeed; }; // установить новый радиус
+	Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
+	
 	virtual void Show();				// показать фигуру  
 	virtual void Hide();				// скрыть фигуру 
-	
-	
+	void DrawCarCabin(); // нарисовать кабину
+	void DrawCarHood(); // нарисовать капот
+	void DrawCarBack(); // нарисовать багажник
+	void DrawExhaustPipe(); // выхлопная труба
 };//end class Car
 
 //************************ новый класс **********************************/

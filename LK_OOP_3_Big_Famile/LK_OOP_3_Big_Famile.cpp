@@ -75,16 +75,19 @@ int main()
 			
 			*/
 			/************  К Р У Г   ***********/
-			
-			Car  BCar(720, 200, 80, 50, 80, "red", 50);  //инициализация машины
-			BCar.Show();
-			Car  ACar(600, 400, 80, 50, 80, "red", 50);  //инициализация машины
+			Base ABase(900,200, 700, 40, "red");
+
+			ABase.Show();
+
+			Car  BCar(720, 200, 500, 50, "red");  //инициализация машины
+			//BCar.Show();
+			Car  ACar(900, 400, 300, 50, "red");  //инициализация машины
 			ACar.Show();			//показать машину
 
 			/*while (1)
 				if (KEY_DOWN(50))	//цифра 2        
 					break;*/
-			BCar.Drag();
+			//BCar.Drag();
 			while (1)
 				if (KEY_DOWN(49))   //цифра 1 
 					break;
@@ -104,17 +107,6 @@ int main()
 				if (KEY_DOWN(52))	//цифра 4        
 					break;
 
-			//увеличить радиус окружности на DeltaRad
-			ACar.Expand(DeltaSpeed);
-			while (1)
-				if (KEY_DOWN(53))	//цифра 5        
-					break;
-
-			//уменьшить радиус окружности на DeltaRad1
-			ACar.Reduce(DeltaSpeed);
-			while (1)
-				if (KEY_DOWN(54))	//цифра 6
-					break;
 			
 			*/
 			//===================================================================
