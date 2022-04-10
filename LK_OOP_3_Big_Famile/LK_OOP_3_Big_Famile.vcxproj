@@ -141,11 +141,11 @@
   <ItemGroup>
     <ClCompile Include="GetConWin.cpp" />
     <ClCompile Include="LK_OOP_3_Big_Famile.cpp" />
-    <ClCompile Include="Point05_03.cpp" />
+    <ClCompile Include="ModelingCar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GetConWin.h" />
-    <ClInclude Include="Point05_03.h" />
+    <ClInclude Include="ModelingCar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
