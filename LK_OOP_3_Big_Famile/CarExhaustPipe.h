@@ -9,8 +9,7 @@ public:
 
 	virtual void Show();				// показать фигуру  
 	virtual void Hide();				// скрыть фигуру 
-    void DrawExhaustPipe(); // выхлопная труба
-	void HideExhaustPipe(); // выхлопная труба
+    void DrawExhaustPipe(HPEN Pen);		// выхлопная труба
 
-};//end class CarExhaustPipe
+};// end class CarExhaustPipe
 

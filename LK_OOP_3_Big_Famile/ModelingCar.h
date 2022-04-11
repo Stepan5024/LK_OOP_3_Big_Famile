@@ -15,19 +15,15 @@
 /*-----------------------     Класс Location    -------------------------*/
 class Location
 {
-protected:		//предоставляет возможность потомкам (производному 
-				//классу) иметь доступ к частным данным
-	int X;		//координата X
-	int Y;		//координата Y
+protected:							   //предоставляет возможность потомкам (производному 
+									   //классу) иметь доступ к частным данным
+	int X;							   //координата X
+	int Y;							   //координата Y
 
 public:   // эти методы доступны извне всем в программе
 	Location(int InitX, int InitY); //конструктор
 	int GetX();						//получить X координату точки
 	int GetY();						//получить Y координату точки
-	/*virtual void Show() = 0;						// показать фигуру 
-	virtual void Hide() = 0;						// скрыть фигуру 
-	virtual void MoveTo(int NewX, int NewY) = 0;	// переместить фигуру
-	virtual void Drag() = 0;						// буксировка фигуры*/
 };//end class Location
 
   /*-----------------------  Класс Base ----------------------------------*/
@@ -35,29 +31,26 @@ public:   // эти методы доступны извне всем в программе
 
 // производный от Location класс Base с атрибутом public и по определению
 
-
 class Base : public Location {
 private:
 	
-	int BodyCarLenght; // длина корпуса
+	int BodyCarLenght;					// длина корпуса
 	int Speed;
-	std::string BaseColor; // цвет корпуса
+	std::string BaseColor;				// цвет корпуса
 
 public:
 	// конструктор класса
 	Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red");
-	void DrawBaseBody(); // отрисует основу на которую садятся колеса
-	void DrawBaseWheels(); // отрисует колеса
-
-	void HideBaseBody();
-	void HideBaseWheels();
-	virtual void Show();
-	virtual void Hide();
-	int GetMaxSpeed() { return Speed; }; // получить текущую скорость
-	void SetSpeed(int NewSpeed) { Speed = NewSpeed; }; // установить новый радиус
-	int GetBaseLenght() { return BodyCarLenght; }; // получить длину корпуса
-	void Drag(); // передвижение фигуры по стрелкам
-	void MoveTo(int NewX, int NewY);  //берем из Point !!!!!!!
+	void DrawBaseBody(HPEN Pen);		// отрисует заданным цветом основу на которую садятся колеса
+	void DrawBaseWheels(HPEN Pen);		// отрисует заданным колеса
+	virtual void Show();				// отрисует базовый автомобиль
+	virtual void Hide();				// спрячет базовый автомобиль
+	int GetMaxSpeed() { return Speed; };				// получить текущую скорость
+	void SetSpeed(int NewSpeed) { Speed = NewSpeed; };	// установить новую скорость
+	int GetBaseLenght() { return BodyCarLenght; };		// получить длину корпуса
+	void SetBaseLenght(int NewBaseLenght) { BodyCarLenght = NewBaseLenght; };
+	void Drag();						// передвижение фигуры по стрелкам
+	void MoveTo(int NewX, int NewY);	// переместить объект по новым координатам
 }; // end class Base
 
 /*-----------------------  Класс Car  -------------------------------*/
@@ -66,28 +59,25 @@ public:
 
 class Car : public Base
 {
-private:		//необязательно , т.к. по умолчанию
-	//int MaxSpeed; // максимальная скорость
+private:								// необязательно , т.к. по умолчанию
+	//int MaxSpeed;						// максимальная скорость
 public:
 	//конструктор с параметрами по умолчанию
-	Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
+	Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); 
 	
-	virtual void Show();				// показать фигуру  
-	virtual void Hide();				// скрыть фигуру 
-	void DrawCarCabin(); // нарисовать кабину с окном
-	void HideCarCabin(); // нарисовать кабину с окном
+	virtual void Show();				// показать фигуру машины
+	virtual void Hide();				// скрыть фигуру машины
+	void DrawCarCabin(HPEN Pen);		// нарисовать кабину с окном заданного цвета
 	
 };//end class Car
 
-class CarWithHood : public Car { // машина с капотом
+class CarWithHood : public Car {		// машина с капотом
 
 public:
 	// конструктор с параметрами по умолчанию
 	CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
 
-	virtual void Show();				// показать фигуру  
-	virtual void Hide();				// скрыть фигуру 
-	void DrawCarHood(); // нарисовать капот
-	void HideCarHood(); // нарисовать капот
-
+	virtual void Show();				// показать фигуру машины с капотом
+	virtual void Hide();				// скрыть фигуру машины с капотом
+	void DrawCarHood(HPEN Pen);			// нарисовать капот заданного цвета
 };

@@ -33,19 +33,19 @@ Location::Location(int InitX, int InitY) //конструктор
 	//инициализация закрытых переменных своего класса
 	X = InitX;
 	Y = InitY;
-};//end Location::Location()
+};// end Location::Location()
 
  
 int Location::GetX(void)  //получить X координату точки
 {
 	return X;
-};//end Location::GetX()	
+};// end Location::GetX()	
 
   
 int Location::GetY(void) //получить Y координату точки
 {
 	return Y;
-}; //end Location::GetY()
+}; // end Location::GetY()
 
 
 			/*----------------------------------------*/
@@ -59,180 +59,121 @@ Base::Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string In
 	Speed = InitSpeed;
 	BaseColor = InitBaseColor;
 
-}//end Base::Base()
-
-
+}// end Base::Base()
 
 BOOL Line(HDC hdc, int x1, int y1, int x2, int y2)
 {
-	MoveToEx(hdc, x1, y1, NULL); //сделать текущими координаты x1, y1
+	MoveToEx(hdc, x1, y1, NULL);		// сделать текущими координаты x1, y1
 	return LineTo(hdc, x2, y2);
-}
-void Base::DrawBaseBody() { // основание
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	//cout << "BodyLenght = " << BodyCarLenght << endl;
+} // end Line()
+
+void Base::DrawBaseBody(HPEN Pen) {		// основание на котором сидят колеса
+
+	SelectObject(hdc, Pen);				// сделаем перо активным
+	
 	int height = 50;
 	// Нарисуем прямоугольник установленным цветом
 	Rectangle(hdc, X - BodyCarLenght, Y, X, Y - height); // корпус
 	
 	int a = BodyCarLenght / 4;
-	//cout << " a = " << a << endl;
+	
 	int radius = 70;
 	Arc(hdc, X - a * 3 + radius / 10 + radius / 2, Y + 20, X - 3 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // левое подколесо
 	Arc(hdc, X - 1 * a + radius / 10 + radius / 2, Y + 20, X - 1 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // правое подколесо
 
-	// нарисуем кабину без окон
 	int lenght = GetBaseLenght() / 3;
 	// Нарисуем прямоугольник установленным цветом
 
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120);
+	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120); // нарисуем кабину без окон
 
 	Pen = CreatePen(PS_SOLID, 5, RGB(255, 255, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	Line(hdc, X - a * 3 + radius / 10 + radius / 2 - 5, Y - 2, X - 3 * a - radius / 10 - radius / 2 + 5, Y - 2);
-	Line(hdc, X - 1 * a + radius / 10 + radius / 2 - 5, Y - 2, X - 1 * a - radius / 10 - radius / 2 + 5, Y - 2);
+	SelectObject(hdc, Pen);				// сделаем перо активным
+	Line(hdc, X - a * 3 + radius / 10 + radius / 2 - 5, Y - 2, X - 3 * a - radius / 10 - radius / 2 + 5, Y - 2); // за контуром колес
+	Line(hdc, X - 1 * a + radius / 10 + radius / 2 - 5, Y - 2, X - 1 * a - radius / 10 - radius / 2 + 5, Y - 2); // за контуром колес	
 
-	
+	DeleteObject(Pen);					// Уничтожим нами созданные объекты
 
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
 } // Base::DrawBackBody()
 
-
-
-void Base::DrawBaseWheels() { // колеса 
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	//int radius = (Y + 35 - (X - 115)) / 2;
+void Base::DrawBaseWheels(HPEN Pen) {	// колеса 
 	
-	int radius = 70;
-	//cout << "Raius = " << radius << endl;
+	SelectObject(hdc, Pen);				//сделаем перо активным
+	
+	int radius = 70;					// радиус колес
+	
 	int a = BodyCarLenght / 4;
-	Ellipse(hdc, X  - a + radius / 2, Y + 35 - radius, X  - a - radius / 2, Y - 35 + radius);
-	Ellipse(hdc, X  - 3 * a + radius / 2, Y + 35 - radius, X - 3 * a - radius / 2, Y - 35 + radius);
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
+	Ellipse(hdc, X  - a + radius / 2, Y + 35 - radius, X  - a - radius / 2, Y - 35 + radius); // правое колесо
+	Ellipse(hdc, X  - 3 * a + radius / 2, Y + 35 - radius, X - 3 * a - radius / 2, Y - 35 + radius); // левое колесо
+	DeleteObject(Pen); // Уничтожим нами созданные объекты
 } // Base::DrawBaseWheels()
 
-void Base::Show() {
-
-	DrawBaseBody();
-	DrawBaseWheels();
-
+void Base::Show() { // отобразить объект
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);
+	DrawBaseWheels(Pen);
+	DeleteObject(Pen); // Уничтожим нами созданные объекты  
 } // Base::Show()
 
-void Base::HideBaseBody() {
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	//cout << "BodyLenght = " << BodyCarLenght << endl;
-	int height = 50;
-	// Нарисуем прямоугольник установленным цветом
-	Rectangle(hdc, X - BodyCarLenght, Y, X, Y - height); // корпус
-
-	int a = BodyCarLenght / 4;
-	//cout << " a = " << a << endl;
-	int radius = 70;
-	Arc(hdc, X - a * 3 + radius / 10 + radius / 2, Y + 20, X - 3 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // левое подколесо
-	Arc(hdc, X - 1 * a + radius / 10 + radius / 2, Y + 20, X - 1 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // правое подколесо
-
-	// нарисуем кабину без окон
-	int lenght = GetBaseLenght() / 3;
-	// Нарисуем прямоугольник установленным цветом
-
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120);
-
-	Pen = CreatePen(PS_SOLID, 5, RGB(255, 255, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	Line(hdc, X - a * 3 + radius / 10 + radius / 2 - 5, Y - 2, X - 3 * a - radius / 10 - radius / 2 + 5, Y - 2);
-	Line(hdc, X - 1 * a + radius / 10 + radius / 2 - 5, Y - 2, X - 1 * a - radius / 10 - radius / 2 + 5, Y - 2);
-
-
-
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
-} // Base::HideBaseBody()
-
-
-void Base::HideBaseWheels() {
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	//int radius = (Y + 35 - (X - 115)) / 2;
-
-	int radius = 70;
-	//cout << "Raius = " << radius << endl;
-	int a = BodyCarLenght / 4;
-	Ellipse(hdc, X - a + radius / 2, Y + 35 - radius, X - a - radius / 2, Y - 35 + radius);
-	Ellipse(hdc, X - 3 * a + radius / 2, Y + 35 - radius, X - 3 * a - radius / 2, Y - 35 + radius);
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
-} // Base::hideBaseWheels()
-
-void Base::Hide() {
-	
-	HideBaseBody();
-	HideBaseWheels();
-
+void Base::Hide() { // спрятать корпус машины
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); // Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);
+	DrawBaseWheels(Pen);
+	DeleteObject(Pen); // Уничтожим нами созданные объекты  
 } // Base::Hide()
 
 void Base::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
 {
-	Hide();  //стирание старой окружности
-	X = NewX; //поменять координаты
+	Hide();			// стирание старого контура машины
+	X = NewX;		// поменять координаты
 	Y = NewY;
-	Show();  //показать окружность на новом месте
-}//end Base::MoveTo()
+	Show();			// показать контур машины на новом месте
+}// end Base::MoveTo()
 
-void Base::Drag() //переместить МАШИНУ
+void Base::Drag() // переместить МАШИНУ
 {
 	int FigX, FigY; // новые координаты фигуры
 
-	FigX = GetX();    //получаем начальное положение фигуры
+	FigX = GetX();    // получаем начальное положение фигуры
 	FigY = GetY();
 
-	while (1)	//бесконечный цикл буксировки фигуры
+	while (1)	// бесконечный цикл буксировки фигуры
 	{
-		if (KEY_DOWN(VK_ESCAPE))     //конец работы 27 escape
+		if (KEY_DOWN(VK_ESCAPE))     // конец работы 27 escape
 		{	
 			std::cout << "FigX = " << GetX();
 			break;
 		}
-		//направление движения объекта
-
-		if (KEY_DOWN(VK_LEFT)) //стрелка влево  37
+		// направление движения объекта
+		if (KEY_DOWN(VK_LEFT)) // стрелка влево  37
 		{
 			FigX -= GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
-		}//end if
+		}// end if
 
-		if (KEY_DOWN(VK_RIGHT)) //стрелка вправо  39
+		if (KEY_DOWN(VK_RIGHT)) // стрелка вправо  39
 		{
 			FigX += GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
-		}//end if
+		}// end if
 
-		if (KEY_DOWN(VK_DOWN)) //стрелка вниз  40
+		if (KEY_DOWN(VK_DOWN)) // стрелка вниз  40
 		{
 			FigY += GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
-		}//end if
+		}// end if
 
-		if (KEY_DOWN(VK_UP)) //стрелка вверх  38
+		if (KEY_DOWN(VK_UP)) // стрелка вверх  38
 		{
 			FigY -= GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
-		}//end if
-	}//end while
+		}// end if
+	}// end while
 
-};//end Base::Drag()
+};// end Base::Drag()
 
 		/*----------------------------------------*/
 		/*        МЕТОДЫ КЛАССА Car               */
@@ -244,62 +185,38 @@ Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string
 {
 	//инициализация закрытых переменных своего класса
 	//MaxSpeed = InitMaxSpeed;
-}//end Car::Car ()
+}// end Car::Car ()
 
-
-
-void Car::DrawCarCabin() {
+void Car::DrawCarCabin(HPEN Pen) { // нарисовать машину с окном
 
 	// кабина
 	cout << "x = " << X << " y = " << Y << endl;
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-	SelectObject(hdc, Pen);	//сделаем перо активным
+	SelectObject(hdc, Pen);		// сделаем перо активным
 	int height = 70;
 	
 	int lenght = GetBaseLenght() / 3;
-	// Нарисуем прямоугольник установленным цветом
 	
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120);
+	// Нарисуем прямоугольник установленным цветом
 	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты
 } // Car::DrawBaseCabin()
 
-void Car::HideCarCabin() {
-
-	// кабина
-	cout << "x = " << X << " y = " << Y << endl;
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	int height = 70;
-
-	int lenght = GetBaseLenght() / 3;
-	// Нарисуем прямоугольник установленным цветом
-
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120);
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
-} // Car::HideBaseCabin()
-
-void Car::Show(void) // показать круг
+void Car::Show(void)			// показать круг
 {
-	
-	DrawBaseBody(); // корпус
-	DrawBaseWheels(); // колеса
-	DrawCarCabin(); // кабина
-
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);			// корпус
+	DrawBaseWheels(Pen);		// колеса
+	DrawCarCabin(Pen);			// кабина
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
 } // end Car::Show()
 
-
-void Car::Hide(void) // скрыть машину
+void Car::Hide(void)			// скрыть машину
 {
-	HideBaseBody();
-	HideBaseWheels();
-	HideCarCabin();
-
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); // зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);			// корпус
+	DrawBaseWheels(Pen);		// колеса
+	DrawCarCabin(Pen);			// кабина
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
 }// end Car::Hide()
 
 		/*----------------------------------------*/
@@ -311,22 +228,21 @@ CarWithHood::CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSp
 {
 	//инициализация закрытых переменных своего класса
 	//MaxSpeed = InitMaxSpeed;
-}//end CarExhaustPipe::CarExhaustPipe()
+}// end CarExhaustPipe::CarExhaustPipe()
 
-void CarWithHood::DrawCarHood() { // капот
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-	SelectObject(hdc, Pen);	//сделаем перо активным
+void CarWithHood::DrawCarHood(HPEN Pen) { // капот
+	
+	
+	SelectObject(hdc, Pen);			// сделаем перо активным
 	int height = 50;
 	int lenght = GetBaseLenght() / 3;
-	// Нарисуем дугу установленным цветом
+	
 	int a = GetBaseLenght() / 2;
-	//cout << " a = " << a << endl;
+	
 	int radius = 70;
-
 	POINT poly[6];
 
-	poly[0].x = X; // первая координата полигона
+	poly[0].x = X;					// первая координата полигона
 	poly[0].y = Y - height;
 
 	poly[1].x = X - lenght / 2 + 50;
@@ -344,116 +260,27 @@ void CarWithHood::DrawCarHood() { // капот
 	poly[5].x = X - a + lenght / 2;
 	poly[5].y = Y - height - 50;
 
-	Polyline(hdc, poly, 6);
-
-	/*
-	//Arc(hdc, X - a + lenght / 2, Y - 150, X, Y , a * 20, Y - 50, a / 20, Y - 30); // правое подколесо
-	int x0 = X - a + lenght / 2;
-	int y0 = Y - height  - 50; // левая координата дуги крыша кабины
-	int x1 = X;
-	int y1 = Y + 70; // правая координата дуги
-	int stAngle = 0;
-	int arcAngle = 60;
-	int Center_x = (x0 + x1) / 2;
-	int Center_y = (y0 + y1) / 2;
-	int StartArc_x, StartArc_y;
-	int EndArc_x, EndArc_y;
-
-	double startAngle, endAngle, convrt = 3.14 / 180; //degrees to radians
-
-	startAngle = stAngle * convrt;
-	endAngle = (arcAngle + stAngle) * convrt;
-
-	radius = (((x1 - x0) > (y1 - y0)) ? x1 - x0 : y1 - y0) / 2;
-	StartArc_x = Center_x + (int)(radius * cos((double)startAngle));
-	StartArc_y = Center_y - (int)(radius * sin((double)startAngle));
-	EndArc_x = Center_x + (int)(radius * cos((double)endAngle));
-	EndArc_y = Center_y - (int)(radius * sin((double)endAngle));
-
-	Arc(hdc, x0, y0, x1, y1, StartArc_x, StartArc_y, EndArc_x, EndArc_y);
-	Line(hdc, X - lenght / 4 + 6, Y - height - 30 , X - GetBaseLenght() / 2 + lenght / 2, Y - height - 30);
-	*/
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
+	Polyline(hdc, poly, 6);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 } // Car::DrawCarHood()
 
-void CarWithHood::HideCarHood() { // капот
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	int height = 50;
-	int lenght = GetBaseLenght() / 3;
-	// Нарисуем дугу установленным цветом
-	int a = GetBaseLenght() / 2;
-	//cout << " a = " << a << endl;
-	int radius = 70;
-
-	POINT poly[6];
-
-	poly[0].x = X; // первая координата полигона
-	poly[0].y = Y - height;
-
-	poly[1].x = X - lenght / 2 + 50;
-	poly[1].y = Y - height - 30;
-
-	poly[2].x = X - lenght / 2 - 10;
-	poly[2].y = Y - height - 35;
-
-	poly[3].x = X - a + lenght / 2 + lenght / 3;
-	poly[3].y = Y - height - 40;
-
-	poly[4].x = X - a + lenght / 2 + lenght / 4;
-	poly[4].y = Y - height - 50;
-
-	poly[5].x = X - a + lenght / 2;
-	poly[5].y = Y - height - 50;
-
-	Polyline(hdc, poly, 6);
-
-	/*
-	//Arc(hdc, X - a + lenght / 2, Y - 150, X, Y , a * 20, Y - 50, a / 20, Y - 30); // правое подколесо
-	int x0 = X - a + lenght / 2;
-	int y0 = Y - height  - 50; // левая координата дуги крыша кабины
-	int x1 = X;
-	int y1 = Y + 70; // правая координата дуги
-	int stAngle = 0;
-	int arcAngle = 60;
-	int Center_x = (x0 + x1) / 2;
-	int Center_y = (y0 + y1) / 2;
-	int StartArc_x, StartArc_y;
-	int EndArc_x, EndArc_y;
-
-	double startAngle, endAngle, convrt = 3.14 / 180; //degrees to radians
-
-	startAngle = stAngle * convrt;
-	endAngle = (arcAngle + stAngle) * convrt;
-
-	radius = (((x1 - x0) > (y1 - y0)) ? x1 - x0 : y1 - y0) / 2;
-	StartArc_x = Center_x + (int)(radius * cos((double)startAngle));
-	StartArc_y = Center_y - (int)(radius * sin((double)startAngle));
-	EndArc_x = Center_x + (int)(radius * cos((double)endAngle));
-	EndArc_y = Center_y - (int)(radius * sin((double)endAngle));
-
-	Arc(hdc, x0, y0, x1, y1, StartArc_x, StartArc_y, EndArc_x, EndArc_y);
-	Line(hdc, X - lenght / 4 + 6, Y - height - 30 , X - GetBaseLenght() / 2 + lenght / 2, Y - height - 30);
-	*/
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
-} // Car::HideCarHood()
-
 void CarWithHood::Show() {
-
-	DrawBaseBody(); // корпус
-	DrawBaseWheels(); // колеса
-	DrawCarCabin(); // кабина
-	DrawCarHood(); // капот
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarHood(Pen);				// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
 void CarWithHood::Hide() {
-	HideBaseBody(); // корпус
-	HideBaseWheels(); // колеса
-	HideCarCabin();
-	HideCarHood();
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarHood(Pen);				// капот
+
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
 /*----------------------------------------*/
@@ -465,53 +292,34 @@ CarExhaustPipe::CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int 
 {
 	//инициализация закрытых переменных своего класса
 	//MaxSpeed = InitMaxSpeed;
-}//end CarExhaustPipe::CarExhaustPipe()
+}// end CarExhaustPipe::CarExhaustPipe()
 
-void CarExhaustPipe::DrawExhaustPipe() {
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-	SelectObject(hdc, Pen);	//сделаем перо активным
+void CarExhaustPipe::DrawExhaustPipe(HPEN Pen) {
+	SelectObject(hdc, Pen);			// сделаем перо активным
 	Rectangle(hdc, X - GetBaseLenght() - 30, Y - 30, X - GetBaseLenght(), Y - 10); // выхлопная труба
-
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 } //CarExhaustPipe::DrawExhaustPipe()
 
-void CarExhaustPipe::HideExhaustPipe() {
-	// Зададим перо и цвет пера - красный
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
-	SelectObject(hdc, Pen);	//сделаем перо активным
-	Rectangle(hdc, X - GetBaseLenght() - 30, Y - 30, X - GetBaseLenght(), Y - 10); // выхлопная труба
-
-	// Уничтожим нами созданные объекты  
-	DeleteObject(Pen);
-} //CarExhaustPipe::HideExhaustPipe()
-
-void CarExhaustPipe::Show(void) // показать круг
+void CarExhaustPipe::Show(void)		// показать машину с выхлопной трубой
 {
-
-	DrawBaseBody(); // корпус
-	DrawBaseWheels(); // колеса
-	DrawCarCabin(); // кабина
-	DrawCarHood(); // капот
-	DrawExhaustPipe(); // выхлопная труба
-	
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarHood(Pen);				// капот
+	DrawExhaustPipe(Pen);			// выхлопная труба
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты
 } // end CarExhaustPipe::Show()
 
-
-
-void CarExhaustPipe::Hide(void) // показать круг
+void CarExhaustPipe::Hide(void)		// спрятать 
 {
-
-	HideBaseBody(); // корпус
-	HideBaseWheels(); // колеса
-	HideCarCabin(); // кабина
-	HideCarHood();
-	HideExhaustPipe(); // выхлопная труба
-
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarHood(Pen);				// капот
+	DrawExhaustPipe(Pen);			// выхлопная труба
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты
 } // end CarExhaustPipe::Show()
-
-
-
 
 /**************   End of File Point05_03.СPP   ********************/
