@@ -234,7 +234,8 @@ void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	
 	
 	SelectObject(hdc, Pen);			// сделаем перо активным
-	int height = 50;
+	int heightBase = 50;
+	int heightCabin = 70;
 	int lenght = GetBaseLenght() / 3;
 	
 	int a = GetBaseLenght() / 2;
@@ -243,22 +244,22 @@ void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	POINT poly[6];
 
 	poly[0].x = X;					// первая координата полигона
-	poly[0].y = Y - height;
+	poly[0].y = Y - heightBase;
 
 	poly[1].x = X - lenght / 2 + 50;
-	poly[1].y = Y - height - 30;
+	poly[1].y = Y - heightBase - heightBase / 2;
 
 	poly[2].x = X - lenght / 2 - 10;
-	poly[2].y = Y - height - 35;
+	poly[2].y = Y - heightCabin / 2 - heightBase + heightCabin / 13;
 
 	poly[3].x = X - a + lenght / 2 + lenght / 3;
-	poly[3].y = Y - height - 40;
+	poly[3].y = Y - heightCabin / 2 - heightBase + heightCabin / 18;
 
 	poly[4].x = X - a + lenght / 2 + lenght / 4;
-	poly[4].y = Y - height - 50;
+	poly[4].y = Y - heightCabin / 2 - heightBase + heightCabin / 25;
 
 	poly[5].x = X - a + lenght / 2;
-	poly[5].y = Y - height - 50;
+	poly[5].y = Y - heightCabin / 2 - heightBase;
 
 	Polyline(hdc, poly, 6);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
@@ -279,7 +280,6 @@ void CarWithHood::Hide() {
 	DrawBaseWheels(Pen);			// колеса
 	DrawCarCabin(Pen);				// кабина
 	DrawCarHood(Pen);				// капот
-
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
@@ -322,4 +322,168 @@ void CarExhaustPipe::Hide(void)		// спрятать
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты
 } // end CarExhaustPipe::Show()
 
-/**************   End of File Point05_03.СPP   ********************/
+/*----------------------------------------*/
+/*        МЕТОДЫ КЛАССА CarWithLuggade    */
+/*----------------------------------------*/
+
+//для инициализации закрытых полей используем конструктор предка
+CarWithLuggade::CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+{
+	//инициализация закрытых переменных своего класса
+	//MaxSpeed = InitMaxSpeed;
+}// end CarWithLuggade::CarWithLuggade()
+
+void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // багажник
+
+
+	SelectObject(hdc, Pen);			// сделаем перо активным
+	int heightCabin = 70;
+	int heightBase = 50;
+
+	int lenght = GetBaseLenght() / 3;
+
+	int a = GetBaseLenght() / 2;
+
+	int radius = 70;
+	POINT poly[4];
+
+	// Нарисуем прямоугольник установленным цветом
+	//Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
+
+
+	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
+	poly[0].y = Y - heightCabin / 2 - heightBase;
+
+	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
+	poly[1].y = Y - heightCabin / 2 - heightBase;
+
+	poly[2].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3;
+	poly[2].y = Y - heightCabin / 2 - heightBase + lenght / 5;
+
+	poly[3].x = X - GetBaseLenght();
+	poly[3].y = Y - heightBase;
+
+	Polyline(hdc, poly, 4);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+} // CarWithLuggade::DrawCarLuggade()
+
+void CarWithLuggade::Show() {
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarLuggade(Pen);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+}
+
+void CarWithLuggade::Hide() {
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarLuggade(Pen);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+}
+
+/*-----------------------------------------------*/
+/*        МЕТОДЫ КЛАССА CarWithHoodAndLuggade    */
+/*-----------------------------------------------*/
+
+//для инициализации закрытых полей используем конструктор предка
+CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+{
+	//инициализация закрытых переменных своего класса
+	//MaxSpeed = InitMaxSpeed;
+}// end CarWithHoodAndLuggade::CarWithHoodAndLuggade()
+
+
+void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
+
+
+	SelectObject(hdc, Pen);			// сделаем перо активным
+	int heightCabin = 70;
+	int heightBase = 50;
+
+	int lenght = GetBaseLenght() / 3;
+
+	int a = GetBaseLenght() / 2;
+
+	int radius = 70;
+	POINT poly[4];
+
+	// Нарисуем прямоугольник установленным цветом
+	//Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
+
+	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
+	poly[0].y = Y - heightCabin / 2 - heightBase;
+
+	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
+	poly[1].y = Y - heightCabin / 2 - heightBase;
+
+	poly[2].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3;
+	poly[2].y = Y - heightCabin / 2 - heightBase + lenght / 5;
+
+	poly[3].x = X - GetBaseLenght();
+	poly[3].y = Y - heightBase;
+
+	Polyline(hdc, poly, 4);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+} // CarWithHoodAndLuggade::DrawCarLuggade()
+
+void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
+
+
+	SelectObject(hdc, Pen);			// сделаем перо активным
+	int heightBase = 50;
+	int heightCabin = 70;
+	int lenght = GetBaseLenght() / 3;
+
+	int a = GetBaseLenght() / 2;
+
+	int radius = 70;
+	POINT poly[6];
+
+	poly[0].x = X;					// первая координата полигона
+	poly[0].y = Y - heightBase;
+
+	poly[1].x = X - lenght / 2 + 50;
+	poly[1].y = Y - heightBase - 30;
+
+	poly[2].x = X - lenght / 2 - 10;
+	poly[2].y = Y - heightCabin / 2 - heightBase + heightCabin / 13;
+
+	poly[3].x = X - a + lenght / 2 + lenght / 3;
+	poly[3].y = Y - heightCabin / 2 - heightBase + heightCabin / 18;
+
+	poly[4].x = X - a + lenght / 2 + lenght / 4;
+	poly[4].y = Y - heightCabin / 2 - heightBase + heightCabin / 25;
+
+	poly[5].x = X - a + lenght / 2;
+	poly[5].y = Y - heightCabin / 2 - heightBase;
+
+	Polyline(hdc, poly, 6);			// капот
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+} // CarWithHood::DrawCarHood()
+
+void CarWithHoodAndLuggade::Show() {
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarLuggade(Pen);			// капот
+	DrawCarHood(Pen);				// багажник
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+}
+
+void CarWithHoodAndLuggade::Hide() {
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
+	DrawBaseBody(Pen);				// корпус
+	DrawBaseWheels(Pen);			// колеса
+	DrawCarCabin(Pen);				// кабина
+	DrawCarLuggade(Pen);			// капот
+	DrawCarHood(Pen);				// багажник
+	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+}
+
+
+/**************   End of File ModelingCar.СPP   ********************/

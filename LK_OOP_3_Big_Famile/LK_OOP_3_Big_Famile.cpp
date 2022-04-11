@@ -71,7 +71,7 @@ int main()
 			
 		
 			/************  Б А З О В Ы Й   К Л А С С  ***********/
-			Base ABase(900, 200, 700, 40, "red");
+			Base ABase(990, 200, 300, 40, "red");
 			ABase.Show();
 
 			/************	 М А Ш И Н А	 ***********/
@@ -82,8 +82,17 @@ int main()
 			CarWithHood ACarWithHood(350, 350, 300, 50, "red");
 			ACarWithHood.Show();
 			
+			/************	 М А Ш И Н А  С   Б А Г А Ж Н И К О М	 ***********/
+			CarWithLuggade ACarWithLuggade(900, 590, 300, 50, "red");
+			ACarWithLuggade.Show();
+
+
+			/************	 М А Ш И Н А  С  К А П О Т О М   И   Б А Г А Ж Н И К О М	 ***********/
+			CarWithHoodAndLuggade ACarWithHoodAndLuggade(650, 250, 300, 50, "red");
+			ACarWithHoodAndLuggade.Show();
+
 			/************	 М А Ш И Н А  С   К А П О Т О М	  И  В Ы Х Л О П Н О Й   Т Р У Б О Й	***********/
-			CarExhaustPipe ACarExhaustPipe(700, 550, 500, 50, "red");
+			CarExhaustPipe ACarExhaustPipe(550, 550, 500, 50, "red");
 			ACarExhaustPipe.Show();
 
 			ACarExhaustPipe.Drag();

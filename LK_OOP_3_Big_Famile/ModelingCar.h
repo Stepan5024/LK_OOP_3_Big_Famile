@@ -76,8 +76,28 @@ class CarWithHood : public Car {		// машина с капотом
 public:
 	// конструктор с параметрами по умолчанию
 	CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
-
 	virtual void Show();				// показать фигуру машины с капотом
 	virtual void Hide();				// скрыть фигуру машины с капотом
 	void DrawCarHood(HPEN Pen);			// нарисовать капот заданного цвета
+};
+
+class CarWithLuggade : public Car { // машина с багажником
+
+public: 
+	CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red");
+	virtual void Show();				// показать фигуру машины с капотом
+	virtual void Hide();				// скрыть фигуру машины с капотом
+	void DrawCarLuggade(HPEN Pen);		// нарисовать багажник заданного цвета
+
+};
+
+class CarWithHoodAndLuggade : public Car {		// машина с капотом
+
+public:
+	// конструктор с параметрами по умолчанию
+	CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
+	virtual void Show();				// показать фигуру машины с капотом
+	virtual void Hide();				// скрыть фигуру машины с капотом
+	void DrawCarHood(HPEN Pen);			// нарисовать капот заданного цвета
+	void DrawCarLuggade(HPEN Pen);		// нарисовать багажник заданного цвета
 };
