@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LK_OOP_3_Big_Famile.cpp">
+    <ClCompile Include="LR_2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="ModelingCar.cpp">

@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GetConWin.cpp" />
-    <ClCompile Include="LK_OOP_3_Big_Famile.cpp" />
+    <ClCompile Include="LR_2.cpp" />
     <ClCompile Include="ModelingCar.cpp" />
   </ItemGroup>
   <ItemGroup>

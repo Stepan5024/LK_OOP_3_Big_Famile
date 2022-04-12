@@ -9,10 +9,10 @@
 #include <windows.h>
 #include <conio.h>
 #include <iostream>    
-using namespace std;        // Пространство имен std
+using namespace std;        // пространство имен std
 
-#include "ModelingCar.h" 	//объявление классов
-#include "GetConWin.h"		//указатель на консольное окно
+#include "ModelingCar.h" 	// объявление классов
+#include "GetConWin.h"		// указатель на консольное окно
 #include "CarExhaustPipe.h"
 
 //макрос для определения кода нажатой клавиши
@@ -47,7 +47,7 @@ int main()
 	system("color F0");
 	setlocale(LC_ALL, "Russian");
 
-	//объявление и инициализация переменных
+	// объявление и инициализация переменных
 	int x0 = 400, y0 = 300;  //стартовые координаты центра
 	int x1 = 700, y1 = 800;  //стартовые координаты центра
 	int Speed0 = 50;     //начальное значение скорости
@@ -68,10 +68,8 @@ int main()
 			//===================================================================
 
 		
-			
-		
 			/************  Б А З О В Ы Й   К Л А С С  ***********/
-			Base ABase(990, 200, 300, 40, "red");
+			Base ABase(990, 200, 300, 40, "black");
 			ABase.Show();
 
 			/************	 М А Ш И Н А	 ***********/
@@ -83,19 +81,23 @@ int main()
 			ACarWithHood.Show();
 			
 			/************	 М А Ш И Н А  С   Б А Г А Ж Н И К О М	 ***********/
-			CarWithLuggade ACarWithLuggade(900, 590, 300, 50, "red");
+			CarWithLuggade ACarWithLuggade(950, 590, 300, 50, "black");
 			ACarWithLuggade.Show();
 
 
 			/************	 М А Ш И Н А  С  К А П О Т О М   И   Б А Г А Ж Н И К О М	 ***********/
-			CarWithHoodAndLuggade ACarWithHoodAndLuggade(650, 250, 300, 50, "red");
+			CarWithHoodAndLuggade ACarWithHoodAndLuggade(650, 250, 300, 50, "gren");
 			ACarWithHoodAndLuggade.Show();
+
+			Canister ACanister(625, 550, 100);
+			ACanister.Show();
 
 			/************	 М А Ш И Н А  С   К А П О Т О М	  И  В Ы Х Л О П Н О Й   Т Р У Б О Й	***********/
 			CarExhaustPipe ACarExhaustPipe(550, 550, 500, 50, "red");
 			ACarExhaustPipe.Show();
-
 			ACarExhaustPipe.Drag();
+
+			
 
 			/*while (1)
 				if (KEY_DOWN(50))	//цифра 2        

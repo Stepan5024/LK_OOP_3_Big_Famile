@@ -15,25 +15,45 @@
 /*-----------------------     Класс Location    -------------------------*/
 class Location
 {
-protected:							   //предоставляет возможность потомкам (производному 
-									   //классу) иметь доступ к частным данным
-	int X;							   //координата X
-	int Y;							   //координата Y
+protected:							   // предоставляет возможность потомкам (производному 
+									   // классу) иметь доступ к частным данным
+	int X;							   // координата X
+	int Y;							   // координата Y
 
 public:   // эти методы доступны извне всем в программе
-	Location(int InitX, int InitY); //конструктор
-	int GetX();						//получить X координату точки
-	int GetY();						//получить Y координату точки
+	Location(int InitX, int InitY); // конструктор
+	int GetX();						// получить X координату точки
+	int GetY();						// получить Y координату точки
+	void SetX(int NewX);			// установить новое значение Х
+	void SetY(int NewY);			// установить новое значение Y
 };//end class Location
 
   /*-----------------------  Класс Base ----------------------------------*/
+
+class Canister : public Location {
+
+private:
+
+	int FuelCapacity;					// длина корпуса
+
+public:
+	// конструктор класса
+	Canister(int InitX, int InitY, int FuelCapacity);
+	void DrawCanister(HPEN Pen);		// отрисует заданным цветом основу на которую садятся колеса
+	void Show();				// отрисует базовый автомобиль
+	void Hide();				// спрячет базовый автомобиль
+	int GetFuelCapacity();				// получить текущую скорость
+	void SetFuelCapacity(int NewFuelCapacity);	// установить новую скорость
+	void MoveTo(int NewX, int NewY);	// переместить объект по новым координатам
+	
+}; // end class Canister
 
 
 // производный от Location класс Base с атрибутом public и по определению
 
 class Base : public Location {
 private:
-	
+
 	int BodyCarLenght;					// длина корпуса
 	int Speed;
 	std::string BaseColor;				// цвет корпуса
@@ -51,6 +71,9 @@ public:
 	void SetBaseLenght(int NewBaseLenght) { BodyCarLenght = NewBaseLenght; };
 	void Drag();						// передвижение фигуры по стрелкам
 	void MoveTo(int NewX, int NewY);	// переместить объект по новым координатам
+	std::string GetBaseColor();	// получить цвет машины
+	std::string SetBaseColor(std::string NewBaseColor) { BaseColor = NewBaseColor; }	// получить цвет машины
+
 }; // end class Base
 
 /*-----------------------  Класс Car  -------------------------------*/
@@ -60,16 +83,15 @@ public:
 class Car : public Base
 {
 private:								// необязательно , т.к. по умолчанию
-	//int MaxSpeed;						// максимальная скорость
+	
 public:
 	//конструктор с параметрами по умолчанию
 	Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); 
-	
 	virtual void Show();				// показать фигуру машины
 	virtual void Hide();				// скрыть фигуру машины
 	void DrawCarCabin(HPEN Pen);		// нарисовать кабину с окном заданного цвета
 	
-};//end class Car
+};// end class Car
 
 class CarWithHood : public Car {		// машина с капотом
 

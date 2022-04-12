@@ -1,59 +1,114 @@
-/*******************************************************************\
- * Comment(s)    : ОБЪЯВЛЕНИЕ ТРЕХ КЛАССОВ. НАСЛЕДОВАНИЕ            *
- *                 СТАТИЧЕСКИЕ ПРАВИЛА						        *
- *                 РАННЕЕ СВЯЗЫВАНИЕ						        *
+п»ї/*******************************************************************\
+ * Comment(s)    : РћР‘РЄРЇР’Р›Р•РќРР• РўР Р•РҐ РљР›РђРЎРЎРћР’. РќРђРЎР›Р•Р”РћР’РђРќРР•            *
+ *                 РЎРўРђРўРР§Р•РЎРљРР• РџР РђР’РР›Рђ						        *
+ *                 Р РђРќРќР•Р• РЎР’РЇР—Р«Р’РђРќРР•						        *
  *                                                                  *
  |******************************************************************/
 
 #include <windows.h>
-#include "ModelingCar.h"	//объявление классов
+#include "ModelingCar.h"	//РѕР±СЉСЏРІР»РµРЅРёРµ РєР»Р°СЃСЃРѕРІ
 #include <iostream>
 #include "CarExhaustPipe.h"
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-/*   Г Л О Б А Л Ь Н Ы Е   П Е Р Е М Е Н Н Ы Е  И  К О Н С Т А Н Т Ы   */
+/*   Р“ Р› Рћ Р‘ Рђ Р› Р¬ Рќ Р« Р•   Рџ Р• Р  Р• Рњ Р• Рќ Рќ Р« Р•  Р  Рљ Рћ Рќ РЎ Рў Рђ Рќ Рў Р«   */
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
- //глобальная переменная видна в двух файлах: Point05_03.cpp и Ex05_03_Con.cpp
- //внешнее обявление глобальной переменной
-extern HDC hdc;      // объявим  контекст устройства
+ //РіР»РѕР±Р°Р»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РІРёРґРЅР° РІ РґРІСѓС… С„Р°Р№Р»Р°С…: Point05_03.cpp Рё Ex05_03_Con.cpp
+ //РІРЅРµС€РЅРµРµ РѕР±СЏРІР»РµРЅРёРµ РіР»РѕР±Р°Р»СЊРЅРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
+extern HDC hdc;      // РѕР±СЉСЏРІРёРј  РєРѕРЅС‚РµРєСЃС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°
 using namespace std;
 
-// Макрос для проверки состояния клавиатуры
+// РњР°РєСЂРѕСЃ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃРѕСЃС‚РѕСЏРЅРёСЏ РєР»Р°РІРёР°С‚СѓСЂС‹
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 
 	/*----------------------------------------------------------------*/
-	/*             Р Е А Л И З А Ц И Я    М Е Т О Д О В               */
+	/*             Р  Р• Рђ Р› Р Р— Рђ Р¦ Р РЇ    Рњ Р• Рў Рћ Р” Рћ Р’               */
 	/*----------------------------------------------------------------*/
 
 			/*----------------------------------------*/
-			/*        МЕТОДЫ КЛАССА Location          */
+			/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ Location          */
 			/*----------------------------------------*/
 
-Location::Location(int InitX, int InitY) //конструктор
+Location::Location(int InitX, int InitY) //РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 {
-	//инициализация закрытых переменных своего класса
+	//РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р·Р°РєСЂС‹С‚С‹С… РїРµСЂРµРјРµРЅРЅС‹С… СЃРІРѕРµРіРѕ РєР»Р°СЃСЃР°
 	X = InitX;
 	Y = InitY;
 };// end Location::Location()
 
  
-int Location::GetX(void)  //получить X координату точки
+int Location::GetX()  // РїРѕР»СѓС‡РёС‚СЊ X РєРѕРѕСЂРґРёРЅР°С‚Сѓ С‚РѕС‡РєРё
 {
 	return X;
 };// end Location::GetX()	
 
   
-int Location::GetY(void) //получить Y координату точки
+int Location::GetY() // РїРѕР»СѓС‡РёС‚СЊ Y РєРѕРѕСЂРґРёРЅР°С‚Сѓ С‚РѕС‡РєРё
 {
 	return Y;
 }; // end Location::GetY()
 
+void Location::SetX(int NewX)  // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РҐ
+{
+	X = NewX;
+};// end Location::GetX()	
+
+
+void Location::SetY(int NewY) // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ Y 
+{
+	Y = NewY;
+}; // end Location::GetY()
+
+
+Canister::Canister(int InitX, int InitY, int InitFuelCapacity) : Location(InitX, InitY) {
+	FuelCapacity = InitFuelCapacity;
+} // end Canister::Canister()
+			
+void Canister::Show() { // РѕС‚СЂРёСЃСѓРµС‚ РєР°РЅРёСЃС‚СЂСѓ
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 128, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р·РµР»РµРЅС‹Р№;
+	DrawCanister(Pen);
+	DeleteObject(Pen);			// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
+}; // Canister::Show()
+
+void Canister::Hide() { // СЃРїСЂСЏС‡РµС‚ РєР°РЅРёСЃС‚СЂСѓ
+	
+}; // Canister::Hide()
+
+int Canister::GetFuelCapacity() { // РїРѕР»СѓС‡РёС‚СЊ РµРјРєРѕСЃС‚СЊ РєР°РЅРёСЃС‚СЂС‹ 
+	return FuelCapacity;
+}; // Canister::GetFuelCapacity()
+
+void Canister::SetFuelCapacity(int NewFuelCapacity) {  // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІСѓСЋ СЃРєРѕСЂРѕСЃС‚СЊ
+	FuelCapacity = NewFuelCapacity; 
+
+}; // Canister::SetFuelCapacity	
+
+void Canister::MoveTo(int NewX, int NewY) {
+	Hide();			// СЃС‚РёСЂР°РЅРёРµ РєР°РЅРёСЃС‚СЂС‹
+	X = NewX;		// РїРѕРјРµРЅСЏС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹
+	Y = NewY;
+	Show();			// РїРѕРєР°Р·Р°С‚СЊ РєР°РЅРёСЃС‚СЂСѓ РЅР° РЅРѕРІРѕРј РјРµСЃС‚Рµ
+
+}; // Canister::MoveTo()
+
+
+void Canister::DrawCanister(HPEN Pen) {
+	SelectObject(hdc, Pen);		// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
+	int height = 50; // РІС‹СЃРѕС‚Р° РєР°РЅРёСЃС‚СЂС‹
+	int lenght = 50; // РґР»РёРЅР° РєР°РЅРёСЃС‚СЂС‹
+
+	// РќР°СЂРёСЃСѓРµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рј С†РІРµС‚РѕРј
+	Rectangle(hdc, X - lenght, Y - height, X, Y); // РєР°РЅРёСЃС‚СЂР°
+	//Rectangle(hdc, 100, 100, 200, 200); // РєР°РЅРёСЃС‚СЂР°
+	DeleteObject(Pen);			// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
+
+}; 
 
 			/*----------------------------------------*/
-			/*        МЕТОДЫ КЛАССА Base              */
+			/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ Base              */
 			/*----------------------------------------*/
 
-//для инициализации закрытых полей используем конструктор предка
-Base::Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor) : Location(InitX, InitY) //конструктор
+// РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+Base::Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor) : Location(InitX, InitY) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 {
 	BodyCarLenght = InitBodyCarLenght;
 	Speed = InitSpeed;
@@ -63,109 +118,125 @@ Base::Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string In
 
 BOOL Line(HDC hdc, int x1, int y1, int x2, int y2)
 {
-	MoveToEx(hdc, x1, y1, NULL);		// сделать текущими координаты x1, y1
+	MoveToEx(hdc, x1, y1, NULL);		// СЃРґРµР»Р°С‚СЊ С‚РµРєСѓС‰РёРјРё РєРѕРѕСЂРґРёРЅР°С‚С‹ x1, y1
 	return LineTo(hdc, x2, y2);
 } // end Line()
 
-void Base::DrawBaseBody(HPEN Pen) {		// основание на котором сидят колеса
+void Base::DrawBaseBody(HPEN Pen) {		// РѕСЃРЅРѕРІР°РЅРёРµ РЅР° РєРѕС‚РѕСЂРѕРј СЃРёРґСЏС‚ РєРѕР»РµСЃР°
 
-	SelectObject(hdc, Pen);				// сделаем перо активным
+	SelectObject(hdc, Pen);				// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	
 	int height = 50;
-	// Нарисуем прямоугольник установленным цветом
-	Rectangle(hdc, X - BodyCarLenght, Y, X, Y - height); // корпус
+	// РќР°СЂРёСЃСѓРµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рј С†РІРµС‚РѕРј
+	Rectangle(hdc, X - BodyCarLenght, Y, X, Y - height); // РєРѕСЂРїСѓСЃ
 	
 	int a = BodyCarLenght / 4;
 	
 	int radius = 70;
-	Arc(hdc, X - a * 3 + radius / 10 + radius / 2, Y + 20, X - 3 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // левое подколесо
-	Arc(hdc, X - 1 * a + radius / 10 + radius / 2, Y + 20, X - 1 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // правое подколесо
+	Arc(hdc, X - a * 3 + radius / 10 + radius / 2, Y + 20, X - 3 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // Р»РµРІРѕРµ РїРѕРґРєРѕР»РµСЃРѕ
+	Arc(hdc, X - 1 * a + radius / 10 + radius / 2, Y + 20, X - 1 * a - radius / 10 - radius / 2, Y - 40, BodyCarLenght * 20, Y + 50, BodyCarLenght / 20, Y + 50); // РїСЂР°РІРѕРµ РїРѕРґРєРѕР»РµСЃРѕ
 
 	int lenght = GetBaseLenght() / 3;
-	// Нарисуем прямоугольник установленным цветом
+	// РќР°СЂРёСЃСѓРµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рј С†РІРµС‚РѕРј
 
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120); // нарисуем кабину без окон
+	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght, Y - 50, X - GetBaseLenght() / 3, Y - 120); // РЅР°СЂРёСЃСѓРµРј РєР°Р±РёРЅСѓ Р±РµР· РѕРєРѕРЅ
 
 	Pen = CreatePen(PS_SOLID, 5, RGB(255, 255, 255));
-	SelectObject(hdc, Pen);				// сделаем перо активным
-	Line(hdc, X - a * 3 + radius / 10 + radius / 2 - 5, Y - 2, X - 3 * a - radius / 10 - radius / 2 + 5, Y - 2); // за контуром колес
-	Line(hdc, X - 1 * a + radius / 10 + radius / 2 - 5, Y - 2, X - 1 * a - radius / 10 - radius / 2 + 5, Y - 2); // за контуром колес	
+	SelectObject(hdc, Pen);				// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
+	Line(hdc, X - a * 3 + radius / 10 + radius / 2 - 5, Y - 2, X - 3 * a - radius / 10 - radius / 2 + 5, Y - 2); // Р·Р° РєРѕРЅС‚СѓСЂРѕРј РєРѕР»РµСЃ
+	Line(hdc, X - 1 * a + radius / 10 + radius / 2 - 5, Y - 2, X - 1 * a - radius / 10 - radius / 2 + 5, Y - 2); // Р·Р° РєРѕРЅС‚СѓСЂРѕРј РєРѕР»РµСЃ	
 
-	DeleteObject(Pen);					// Уничтожим нами созданные объекты
+	DeleteObject(Pen);					// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 
 } // Base::DrawBackBody()
 
-void Base::DrawBaseWheels(HPEN Pen) {	// колеса 
+void Base::DrawBaseWheels(HPEN Pen) {	// РєРѕР»РµСЃР° 
 	
-	SelectObject(hdc, Pen);				//сделаем перо активным
+	SelectObject(hdc, Pen);				//СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	
-	int radius = 70;					// радиус колес
+	int radius = 70;					// СЂР°РґРёСѓСЃ РєРѕР»РµСЃ
 	
 	int a = BodyCarLenght / 4;
-	Ellipse(hdc, X  - a + radius / 2, Y + 35 - radius, X  - a - radius / 2, Y - 35 + radius); // правое колесо
-	Ellipse(hdc, X  - 3 * a + radius / 2, Y + 35 - radius, X - 3 * a - radius / 2, Y - 35 + radius); // левое колесо
-	DeleteObject(Pen); // Уничтожим нами созданные объекты
+	Ellipse(hdc, X  - a + radius / 2, Y + 35 - radius, X  - a - radius / 2, Y - 35 + radius); // РїСЂР°РІРѕРµ РєРѕР»РµСЃРѕ
+	Ellipse(hdc, X  - 3 * a + radius / 2, Y + 35 - radius, X - 3 * a - radius / 2, Y - 35 + radius); // Р»РµРІРѕРµ РєРѕР»РµСЃРѕ
+	DeleteObject(Pen); // РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 } // Base::DrawBaseWheels()
 
-void Base::Show() { // отобразить объект
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
+std::string Base::GetBaseColor()
+{
+	std::string str = BaseColor;
+
+	return str;
+}
+
+void Base::Show() { // РѕС‚РѕР±СЂР°Р·РёС‚СЊ РѕР±СЉРµРєС‚
+
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red") 
+	Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+
 	DrawBaseBody(Pen);
 	DrawBaseWheels(Pen);
-	DeleteObject(Pen); // Уничтожим нами созданные объекты  
+	DeleteObject(Pen); // РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // Base::Show()
 
-void Base::Hide() { // спрятать корпус машины
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); // Зададим перо и цвет пера - красный
+void Base::Hide() { // СЃРїСЂСЏС‚Р°С‚СЊ РєРѕСЂРїСѓСЃ РјР°С€РёРЅС‹
+
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
 	DrawBaseBody(Pen);
 	DrawBaseWheels(Pen);
-	DeleteObject(Pen); // Уничтожим нами созданные объекты  
+	DeleteObject(Pen); // РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // Base::Hide()
 
-void Base::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
+void Base::MoveTo(int NewX, int NewY) // РїРѕСЃС‚Р°РІРёС‚СЊ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РЅРѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
 {
-	Hide();			// стирание старого контура машины
-	X = NewX;		// поменять координаты
+	Hide();			// СЃС‚РёСЂР°РЅРёРµ СЃС‚Р°СЂРѕРіРѕ РєРѕРЅС‚СѓСЂР° РјР°С€РёРЅС‹
+	X = NewX;		// РїРѕРјРµРЅСЏС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹
 	Y = NewY;
-	Show();			// показать контур машины на новом месте
+	Show();			// РїРѕРєР°Р·Р°С‚СЊ РєРѕРЅС‚СѓСЂ РјР°С€РёРЅС‹ РЅР° РЅРѕРІРѕРј РјРµСЃС‚Рµ
 }// end Base::MoveTo()
 
-void Base::Drag() // переместить МАШИНУ
+void Base::Drag() // РїРµСЂРµРјРµСЃС‚РёС‚СЊ РњРђРЁРРќРЈ
 {
-	int FigX, FigY; // новые координаты фигуры
+	int FigX, FigY; // РЅРѕРІС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ С„РёРіСѓСЂС‹
 
-	FigX = GetX();    // получаем начальное положение фигуры
+	FigX = GetX();    // РїРѕР»СѓС‡Р°РµРј РЅР°С‡Р°Р»СЊРЅРѕРµ РїРѕР»РѕР¶РµРЅРёРµ С„РёРіСѓСЂС‹
 	FigY = GetY();
 
-	while (1)	// бесконечный цикл буксировки фигуры
+	while (1)	// Р±РµСЃРєРѕРЅРµС‡РЅС‹Р№ С†РёРєР» Р±СѓРєСЃРёСЂРѕРІРєРё С„РёРіСѓСЂС‹
 	{
-		if (KEY_DOWN(VK_ESCAPE))     // конец работы 27 escape
+		if (KEY_DOWN(VK_ESCAPE))     // РєРѕРЅРµС† СЂР°Р±РѕС‚С‹ 27 escape
 		{	
 			std::cout << "FigX = " << GetX();
 			break;
 		}
-		// направление движения объекта
-		if (KEY_DOWN(VK_LEFT)) // стрелка влево  37
+		// РЅР°РїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏ РѕР±СЉРµРєС‚Р°
+		if (KEY_DOWN(VK_LEFT)) // СЃС‚СЂРµР»РєР° РІР»РµРІРѕ  37
 		{
 			FigX -= GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
 		}// end if
 
-		if (KEY_DOWN(VK_RIGHT)) // стрелка вправо  39
+		if (KEY_DOWN(VK_RIGHT)) // СЃС‚СЂРµР»РєР° РІРїСЂР°РІРѕ  39
 		{
 			FigX += GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
 		}// end if
 
-		if (KEY_DOWN(VK_DOWN)) // стрелка вниз  40
+		if (KEY_DOWN(VK_DOWN)) // СЃС‚СЂРµР»РєР° РІРЅРёР·  40
 		{
 			FigY += GetMaxSpeed();
 			MoveTo(FigX, FigY);
 			Sleep(500);
 		}// end if
 
-		if (KEY_DOWN(VK_UP)) // стрелка вверх  38
+		if (KEY_DOWN(VK_UP)) // СЃС‚СЂРµР»РєР° РІРІРµСЂС…  38
 		{
 			FigY -= GetMaxSpeed();
 			MoveTo(FigX, FigY);
@@ -176,64 +247,69 @@ void Base::Drag() // переместить МАШИНУ
 };// end Base::Drag()
 
 		/*----------------------------------------*/
-		/*        МЕТОДЫ КЛАССА Car               */
+		/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ Car               */
 		/*----------------------------------------*/
 
 
-//для инициализации закрытых полей используем конструктор предка
-Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Base(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор Car
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Base(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ Car
 {
-	//инициализация закрытых переменных своего класса
-	//MaxSpeed = InitMaxSpeed;
+
 }// end Car::Car ()
 
-void Car::DrawCarCabin(HPEN Pen) { // нарисовать машину с окном
+void Car::DrawCarCabin(HPEN Pen) { // РЅР°СЂРёСЃРѕРІР°С‚СЊ РјР°С€РёРЅСѓ СЃ РѕРєРЅРѕРј
 
-	// кабина
+	// РєР°Р±РёРЅР°
 	cout << "x = " << X << " y = " << Y << endl;
-	SelectObject(hdc, Pen);		// сделаем перо активным
+	SelectObject(hdc, Pen);		// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	int height = 70;
 	
 	int lenght = GetBaseLenght() / 3;
 	
-	// Нарисуем прямоугольник установленным цветом
-	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
-	DeleteObject(Pen);			// Уничтожим нами созданные объекты
+	// РќР°СЂРёСЃСѓРµРј РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рј С†РІРµС‚РѕРј
+	Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //РѕРєРѕС€РµС‡РєРѕ
+	DeleteObject(Pen);			// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 } // Car::DrawBaseCabin()
 
-void Car::Show(void)			// показать круг
+void Car::Show()				// РїРѕРєР°Р·Р°С‚СЊ РєСЂСѓРі
 {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);			// корпус
-	DrawBaseWheels(Pen);		// колеса
-	DrawCarCabin(Pen);			// кабина
-	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red")
+		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+
+	DrawBaseBody(Pen);			// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);		// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);			// РєР°Р±РёРЅР°
+	DeleteObject(Pen);			// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // end Car::Show()
 
-void Car::Hide(void)			// скрыть машину
+void Car::Hide()				// СЃРєСЂС‹С‚СЊ РјР°С€РёРЅСѓ
 {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); // зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);			// корпус
-	DrawBaseWheels(Pen);		// колеса
-	DrawCarCabin(Pen);			// кабина
-	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255)); // Р·Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р±РµР»С‹Р№
+	DrawBaseBody(Pen);			// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);		// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);			// РєР°Р±РёРЅР°
+	DeleteObject(Pen);			// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }// end Car::Hide()
 
 		/*----------------------------------------*/
-		/*        МЕТОДЫ КЛАССА CarWithHood       */
+		/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ CarWithHood       */
 		/*----------------------------------------*/
 
-//для инициализации закрытых полей используем конструктор предка
-CarWithHood::CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+CarWithHood::CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ CarExhaustPipe
 {
-	//инициализация закрытых переменных своего класса
-	//MaxSpeed = InitMaxSpeed;
+
 }// end CarExhaustPipe::CarExhaustPipe()
 
-void CarWithHood::DrawCarHood(HPEN Pen) { // капот
+void CarWithHood::DrawCarHood(HPEN Pen) { // РєР°РїРѕС‚
 	
 	
-	SelectObject(hdc, Pen);			// сделаем перо активным
+	SelectObject(hdc, Pen);			// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	int heightBase = 50;
 	int heightCabin = 70;
 	int lenght = GetBaseLenght() / 3;
@@ -243,7 +319,7 @@ void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	int radius = 70;
 	POINT poly[6];
 
-	poly[0].x = X;					// первая координата полигона
+	poly[0].x = X;					// РїРµСЂРІР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР»РёРіРѕРЅР°
 	poly[0].y = Y - heightBase;
 
 	poly[1].x = X - lenght / 2 + 50;
@@ -261,82 +337,93 @@ void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	poly[5].x = X - a + lenght / 2;
 	poly[5].y = Y - heightCabin / 2 - heightBase;
 
-	Polyline(hdc, poly, 6);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	Polyline(hdc, poly, 6);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // Car::DrawCarHood()
 
 void CarWithHood::Show() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red")
+		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarHood(Pen);				// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 void CarWithHood::Hide() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р±РµР»С‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarHood(Pen);				// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 /*----------------------------------------*/
-/*        МЕТОДЫ КЛАССА CarExhaustPipe    */
+/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ CarExhaustPipe    */
 /*----------------------------------------*/
 
-//для инициализации закрытых полей используем конструктор предка
-CarExhaustPipe::CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : CarWithHood(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+CarExhaustPipe::CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : CarWithHood(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ CarExhaustPipe
 {
-	//инициализация закрытых переменных своего класса
-	//MaxSpeed = InitMaxSpeed;
+
 }// end CarExhaustPipe::CarExhaustPipe()
 
 void CarExhaustPipe::DrawExhaustPipe(HPEN Pen) {
-	SelectObject(hdc, Pen);			// сделаем перо активным
-	Rectangle(hdc, X - GetBaseLenght() - 30, Y - 30, X - GetBaseLenght(), Y - 10); // выхлопная труба
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	SelectObject(hdc, Pen);			// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
+	Rectangle(hdc, X - GetBaseLenght() - 30, Y - 30, X - GetBaseLenght(), Y - 10); // РІС‹С…Р»РѕРїРЅР°СЏ С‚СЂСѓР±Р°
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } //CarExhaustPipe::DrawExhaustPipe()
 
-void CarExhaustPipe::Show(void)		// показать машину с выхлопной трубой
+void CarExhaustPipe::Show()			  // РїРѕРєР°Р·Р°С‚СЊ РјР°С€РёРЅСѓ СЃ РІС‹С…Р»РѕРїРЅРѕР№ С‚СЂСѓР±РѕР№
 {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
-	DrawExhaustPipe(Pen);			// выхлопная труба
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red")
+		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarHood(Pen);				// РєР°РїРѕС‚
+	DrawExhaustPipe(Pen);			// РІС‹С…Р»РѕРїРЅР°СЏ С‚СЂСѓР±Р°
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 } // end CarExhaustPipe::Show()
 
-void CarExhaustPipe::Hide(void)		// спрятать 
+void CarExhaustPipe::Hide()			// СЃРїСЂСЏС‚Р°С‚СЊ 
 {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
-	DrawExhaustPipe(Pen);			// выхлопная труба
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р±РµР»С‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarHood(Pen);				// РєР°РїРѕС‚
+	DrawExhaustPipe(Pen);			// РІС‹С…Р»РѕРїРЅР°СЏ С‚СЂСѓР±Р°
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹
 } // end CarExhaustPipe::Show()
 
 /*----------------------------------------*/
-/*        МЕТОДЫ КЛАССА CarWithLuggade    */
+/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ CarWithLuggade    */
 /*----------------------------------------*/
 
-//для инициализации закрытых полей используем конструктор предка
-CarWithLuggade::CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+CarWithLuggade::CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ CarExhaustPipe
 {
-	//инициализация закрытых переменных своего класса
-	//MaxSpeed = InitMaxSpeed;
+
 }// end CarWithLuggade::CarWithLuggade()
 
-void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // багажник
+void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // Р±Р°РіР°Р¶РЅРёРє
 
 
-	SelectObject(hdc, Pen);			// сделаем перо активным
+	SelectObject(hdc, Pen);			// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	int heightCabin = 70;
 	int heightBase = 50;
 
@@ -347,11 +434,7 @@ void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 	int radius = 70;
 	POINT poly[4];
 
-	// Нарисуем прямоугольник установленным цветом
-	//Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
-
-
-	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
+	poly[0].x = X - 2 * GetBaseLenght() / 3;					// РїРµСЂРІР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР»РёРіРѕРЅР°
 	poly[0].y = Y - heightCabin / 2 - heightBase;
 
 	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
@@ -363,44 +446,50 @@ void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 	poly[3].x = X - GetBaseLenght();
 	poly[3].y = Y - heightBase;
 
-	Polyline(hdc, poly, 4);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	Polyline(hdc, poly, 4);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // CarWithLuggade::DrawCarLuggade()
 
 void CarWithLuggade::Show() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarLuggade(Pen);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red")
+		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarLuggade(Pen);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 void CarWithLuggade::Hide() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarLuggade(Pen);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р±РµР»С‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarLuggade(Pen);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 /*-----------------------------------------------*/
-/*        МЕТОДЫ КЛАССА CarWithHoodAndLuggade    */
+/*        РњР•РўРћР”Р« РљР›РђРЎРЎРђ CarWithHoodAndLuggade    */
 /*-----------------------------------------------*/
 
-//для инициализации закрытых полей используем конструктор предка
-CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РєСЂС‹С‚С‹С… РїРѕР»РµР№ РёСЃРїРѕР»СЊР·СѓРµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРґРєР°
+CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ CarExhaustPipe
 {
-	//инициализация закрытых переменных своего класса
-	//MaxSpeed = InitMaxSpeed;
+
 }// end CarWithHoodAndLuggade::CarWithHoodAndLuggade()
 
 
-void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
+void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // Р±Р°РіР°Р¶РЅРёРє
 
 
-	SelectObject(hdc, Pen);			// сделаем перо активным
+	SelectObject(hdc, Pen);			// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	int heightCabin = 70;
 	int heightBase = 50;
 
@@ -411,10 +500,7 @@ void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 	int radius = 70;
 	POINT poly[4];
 
-	// Нарисуем прямоугольник установленным цветом
-	//Rectangle(hdc, X - GetBaseLenght() / 3 - lenght * 0.2, Y - 60, X - GetBaseLenght() / 3 - lenght * 0.8, Y - 110); //окошечко
-
-	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
+	poly[0].x = X - 2 * GetBaseLenght() / 3;					// РїРµСЂРІР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР»РёРіРѕРЅР°
 	poly[0].y = Y - heightCabin / 2 - heightBase;
 
 	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
@@ -426,14 +512,14 @@ void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 	poly[3].x = X - GetBaseLenght();
 	poly[3].y = Y - heightBase;
 
-	Polyline(hdc, poly, 4);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	Polyline(hdc, poly, 4);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // CarWithHoodAndLuggade::DrawCarLuggade()
 
-void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
+void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // РєР°РїРѕС‚
 
 
-	SelectObject(hdc, Pen);			// сделаем перо активным
+	SelectObject(hdc, Pen);			// СЃРґРµР»Р°РµРј РїРµСЂРѕ Р°РєС‚РёРІРЅС‹Рј
 	int heightBase = 50;
 	int heightCabin = 70;
 	int lenght = GetBaseLenght() / 3;
@@ -443,7 +529,7 @@ void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
 	int radius = 70;
 	POINT poly[6];
 
-	poly[0].x = X;					// первая координата полигона
+	poly[0].x = X;					// РїРµСЂРІР°СЏ РєРѕРѕСЂРґРёРЅР°С‚Р° РїРѕР»РёРіРѕРЅР°
 	poly[0].y = Y - heightBase;
 
 	poly[1].x = X - lenght / 2 + 50;
@@ -461,29 +547,35 @@ void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
 	poly[5].x = X - a + lenght / 2;
 	poly[5].y = Y - heightCabin / 2 - heightBase;
 
-	Polyline(hdc, poly, 6);			// капот
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	Polyline(hdc, poly, 6);			// РєР°РїРѕС‚
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 } // CarWithHood::DrawCarHood()
 
 void CarWithHoodAndLuggade::Show() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));	// Зададим перо и цвет пера - красный
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarLuggade(Pen);			// капот
-	DrawCarHood(Pen);				// багажник
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	string CarColor = GetBaseColor(); // РїРѕР»СѓС‡Р°РµРј С†РІРµС‚ РёР· РєР»Р°СЃСЃР° Base
+	HPEN Pen;
+	if (CarColor == "red")
+		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РєСЂР°СЃРЅС‹Р№
+	else if (CarColor == "black")
+		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - С‡РµСЂРЅС‹Р№
+	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - РѕСЂР°РЅР¶РµРІС‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarLuggade(Pen);			// РєР°РїРѕС‚
+	DrawCarHood(Pen);				// Р±Р°РіР°Р¶РЅРёРє
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 void CarWithHoodAndLuggade::Hide() {
-	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));	// Зададим перо и цвет пера - синий
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarLuggade(Pen);			// капот
-	DrawCarHood(Pen);				// багажник
-	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Р—Р°РґР°РґРёРј РїРµСЂРѕ Рё С†РІРµС‚ РїРµСЂР° - Р±РµР»С‹Р№
+	DrawBaseBody(Pen);				// РєРѕСЂРїСѓСЃ
+	DrawBaseWheels(Pen);			// РєРѕР»РµСЃР°
+	DrawCarCabin(Pen);				// РєР°Р±РёРЅР°
+	DrawCarLuggade(Pen);			// РєР°РїРѕС‚
+	DrawCarHood(Pen);				// Р±Р°РіР°Р¶РЅРёРє
+	DeleteObject(Pen);				// РЈРЅРёС‡С‚РѕР¶РёРј РЅР°РјРё СЃРѕР·РґР°РЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹  
 }
 
 
-/**************   End of File ModelingCar.СPP   ********************/
+/**************   End of File ModelingCar.РЎPP   ********************/
