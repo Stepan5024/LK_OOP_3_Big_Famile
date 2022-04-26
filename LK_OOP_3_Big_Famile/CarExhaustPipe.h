@@ -1,8 +1,9 @@
 #pragma once
 #include "ModelingCar.h"
 
-class CarExhaustPipe : public CarWithHood
-{
+class CarExhaustPipe : public CarWithHood {
+private:
+	int EmissionsLevel;			// Уровень выбросов
 public:
 	CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor = "red"); // по умолчанию параметры конструктора
 
@@ -10,5 +11,5 @@ public:
 	virtual void Hide();				// скрыть фигуру 
     void DrawExhaustPipe(HPEN Pen);		// выхлопная труба заданного цвета
 
-};// end class CarExhaustPipe
+};
 
