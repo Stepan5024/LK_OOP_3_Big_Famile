@@ -38,14 +38,15 @@ HDC hdc;	// Объявим контекст устройства
 /***********************************************************************/
 int main()
 {
-	system("color F0");
+	// когда целесообразно использовать веерную иерархию
+	// существенные изменения в структуре объекта, простое вертикальное наследование не позволит ...
+	// целесообразно когда оптимально мы экономим код и память, Оптимально ли мы выполнили это 
+	// одновременно меняется несколько вариантов эволюции объектов. На базе одного идет эволюция нескольких объектов
+	// берем свойства предка и изменения разные. Не одно изменение а несколько разных изменений от одного объекта.
+	// Наследник имеет некоторое изменение и требуется несколько наследников и несколько способов их 
+	//system("color F0");
 	setlocale(LC_ALL, "Russian");
 
-	// объявление и инициализация переменных
-	int x0 = 400, y0 = 300;  //стартовые координаты центра
-	int x1 = 700, y1 = 800;  //стартовые координаты центра
-	int Speed0 = 50;     //начальное значение скорости
-	int DeltaSpeed = 30;     //начальное изменение скорости
 	HWND hwnd = GetConcolWindow();//получим дескриптор консольного окна
 
 	if (hwnd != NULL) //если дескриптор существует
@@ -55,31 +56,150 @@ int main()
 		//если контекст существует - можем работать
 		if (hdc != 0)
 		{
-			/************  Б А З О В Ы Й   К Л А С С  ***********/
-			Base ABase(990, 200, 300, 40, "black");
-			ABase.Show();
-			/************	 М А Ш И Н А	 ***********/
-			Car  ACar(950, 400, 300, 50, "red");  // инициализация машины
-			ACar.Show();			// показать машину
-			/************	 М А Ш И Н А  С   К А П О Т О М	 ***********/
-			CarWithHood ACarWithHood(350, 350, 300, 50, "red");
-			ACarWithHood.Show();
-			/************	 М А Ш И Н А  С   Б А Г А Ж Н И К О М	 ***********/
-			CarWithLuggade ACarWithLuggade(950, 590, 300, 50, "black");
-			ACarWithLuggade.Show();
-			/************	 М А Ш И Н А  С  К А П О Т О М   И   Б А Г А Ж Н И К О М	 ***********/
-			CarWithHoodAndLuggade ACarWithHoodAndLuggade(650, 250, 300, 50, "gren");
-			ACarWithHoodAndLuggade.Show();
-			Canister ACanister(625, 550, 100);
-			ACanister.Show();
-			/************	 М А Ш И Н А  С   К А П О Т О М	  И  В Ы Х Л О П Н О Й   Т Р У Б О Й	***********/
-			CarExhaustPipe ACarExhaustPipe(550, 550, 500, 50, "red");
-			ACarExhaustPipe.Show();
-			ACarExhaustPipe.Drag();
 
+			/************  Б А З О В Ы Й   К Л А С С  ***********/
+			//Base ABase(990, 200, 300, 40, "black");
+			//ABase.Show();
+			/************	 М А Ш И Н А	 ***********/
+			//Car  ACar(950, 400, 300, 50, "red");  // инициализация машины
+			//ACar.Show();			// показать машину
+			/************	 М А Ш И Н А  С   К А П О Т О М	 ***********/
+			//CarWithHood ACarWithHood(350, 350, 300, 50, "red");
+			//ACarWithHood.Show();
+			/************	 М А Ш И Н А  С   Б А Г А Ж Н И К О М	 ***********/
+			//CarWithLuggade ACarWithLuggade(950, 590, 300, 50, "black");
+			//ACarWithLuggade.Show();
+			/************	 М А Ш И Н А  С  К А П О Т О М   И   Б А Г А Ж Н И К О М	 ***********/
+			//CarWithHoodAndLuggade ACarWithHoodAndLuggade(650, 250, 300, 50, "gren");
+			//ACarWithHoodAndLuggade.Show();
+			/************	 К И Р П И Ч	 ***********/
+			//Brick ABrick(625, 550, 80, 30);
+			//ABrick.Show();
+			/************	 М А Ш И Н А  С   К А П О Т О М	  И  В Ы Х Л О П Н О Й   Т Р У Б О Й	***********/
+			//CarExhaustPipe ACarExhaustPipe(550, 550, 500, 50, "red");
+			//ACarExhaustPipe.Show();
+			//ACarExhaustPipe.Drag();
+
+			Car* indCar;
+			Barriers* indBarriers;
+
+			Barriers* matrixBarriers[3] = {
+				// матрица переходов для смены 
+							  { new Canister(435, 550, 6, 50, 50) },
+							  { new Brick(435, 350, 80, 30) } ,
+							  { new Canister(700, 500, 6, 50, 50) } };
+
+			indBarriers = matrixBarriers[0];
+			indBarriers->Show();
+			indBarriers = matrixBarriers[1];
+			indBarriers->Show();
+
+			HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255)); // цвет тела - кирпичный; //создаём объект-кисть
+			SelectObject(hdc, hBrush);		//делаем кисть активной
+
+			hBrush = CreateSolidBrush(RGB(255, 255, 255)); // цвет тела - кирпичный; //создаём объект-кисть
+			SelectObject(hdc, hBrush);		//делаем кисть активной
+
+			int x0 = 350;
+			int y0 = 250;
+			int add_x0 = x0;
+			int add_y0 = y0;
+			
+			Car* matrixCar[3] = {
+				// матрица переходов для смены 
+							  { new CarWithHood(x0, y0, 300, 50, "red") },
+							  { new CarExhaustPipe(add_x0, add_y0, 300, 50, "red") } ,
+							  { new Car(x0, y0, 300, 50, "red") } };
+
+			indCar = matrixCar[2];
+			indCar->Show();
+			int step = 20;
 			while (1)
-				if (KEY_DOWN(49))   //цифра 1 
+			{
+				if (KEY_DOWN(49)) {      // нажимаем 1
+					
+					indCar->Hide();
+					indCar = new Car(add_x0, add_y0, 300, 50, "red");
+					indCar->Show();
+				}
+				if (KEY_DOWN(50)) {     // нажимаем 2
+					
+					indCar->Hide();
+					indCar = new CarExhaustPipe(add_x0, add_y0, 300, 50, "red");
+					indCar->Show();
+				}
+
+				if (KEY_DOWN(37)) {   // нажимаем стрелку влево
+					add_x0 -= step;
+					indCar->MoveTo(add_x0, add_y0);
+
+				}
+
+				if (KEY_DOWN(38)) {   // нажимаем стрелку вверх
+					add_y0 -= step;
+					indCar->MoveTo(add_x0, add_y0);
+				}
+
+				if (KEY_DOWN(39)) {   // нажимаем стрелку вправо
+					add_x0 += step;
+					indCar->MoveTo(add_x0, add_y0);
+				}
+				if (KEY_DOWN(40)) {   // нажимаем стрелку вниз
+					add_y0 += step;
+					indCar->MoveTo(add_x0, add_y0);
+
+				}
+
+				if (KEY_DOWN(82)) {     // нажимаем клавишу R для возвращения в исходную точку
+					indCar->Hide();
+					indCar = new Car(x0, y0, 300, 50, "red");
+					indCar->Show();
+				}
+				if (KEY_DOWN(83)) { // клавиша s
+					cout << " к. х car = " << indCar->GetX() << " к. у car = " << indCar->GetY() << " car len = " << indCar->GetBaseLenght() << endl;
+					cout << " id barriers = " << indBarriers->GetTypeId() << " к. x кирпич = " << indBarriers->GetX() << " к. у кирпич = " << indBarriers->GetY() << endl;
+
+				}
+				
+				if (indCar->Touch(indCar->GetX(), indCar->GetY(), indCar->GetBaseLenght(), 150, indBarriers->GetX(), indBarriers->GetY(), indBarriers->GetLength())) { // при прикосновении кирпича к машине
+					cout << "Врезался" << endl;
+					indCar->Hide();
+					indBarriers->Hide();
+
+					hBrush = CreateSolidBrush(RGB(255, 255, 255)); // цвет тела - кирпичный; //создаём объект-кисть
+					SelectObject(hdc, hBrush);		//делаем кисть активной
+					if (indBarriers->GetTypeId() == 0) { // кирпич
+						// меняется 
+
+						indCar = matrixCar[0];
+						indBarriers = matrixBarriers[0]; // меняем на взаимодействие с канистрой
+						
+					}
+					else if (indBarriers->GetTypeId() == 1) { // канистра
+						indCar = matrixCar[1];
+						indBarriers = matrixBarriers[1]; // меняем на взаимодействие с кирпичом
+					}
+					indCar->Show();
+					indBarriers->Show();
+
+					hBrush = CreateSolidBrush(RGB(255, 255, 255)); // цвет тела - кирпичный; //создаём объект-кисть
+					SelectObject(hdc, hBrush);		//делаем кисть активной
+
+					add_x0 = x0;
+					add_y0 = y0;
+					
+				}
+				if (KEY_DOWN(VK_ESCAPE))//Конец работы "Esc"
 					break;
+
+				Sleep(100);
+			}
+			
+
+			delete indBarriers;
+			delete indCar;
+			
+			
 		}
 	}
 }

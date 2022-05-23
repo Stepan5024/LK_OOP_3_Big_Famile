@@ -47,8 +47,117 @@ void Location::SetY(int NewY) // установить новое значени�
 {	Y = NewY;	}; 
 
 
-Canister::Canister(int InitX, int InitY, int InitFuelCapacity) : Location(InitX, InitY) {
-	FuelCapacity = InitFuelCapacity; } 
+			/*----------------------------------------*/
+			/*        МЕТОДЫ КЛАССА Brick             */
+			/*----------------------------------------*/
+Brick::Brick(int InitX, int InitY, int InitWidth, int InitLength) : Barriers(InitX, InitY) {
+	Width = InitWidth;
+	Length = InitLength;
+}
+
+void Brick::Show() {				// отрисует кирпич
+	
+	HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 0)); // цвет тела - кирпичный; //создаём объект-кисть
+	SelectObject(hdc, hBrush);		//делаем кисть активной
+	DrawBrick(hBrush);
+
+	
+	DeleteObject(hBrush);			// Уничтожим нами созданные объекты
+};
+
+void Brick::Hide() { // спрячет кирпич
+	HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0)); // цвет тела - кирпичный; //создаём объект-кисть
+	SelectObject(hdc, hBrush);		//делаем кисть активной
+	DrawBrick(hBrush);
+	DeleteObject(hBrush);			// Уничтожим нами созданные объекты
+};
+
+int Brick::GetBrickWidth() {		// получить ширину
+	return Width;
+};
+
+void Brick::SetBrickWidth(int NewWidth) {		// установить ширину
+	Width = NewWidth;
+};
+
+int Brick::GetBrickLength() {					// получить длину
+	return Length;
+};
+
+void Brick::SetBrickLength(int NewLength) {		// установить длину
+	Length = NewLength;
+};
+void Brick::MoveTo(int NewX, int NewY) {
+	Hide();			// стирание канистры
+	X = NewX;		// поменять координаты
+	Y = NewY;
+	Show();			// показать канистру на новом месте
+};
+
+
+void Brick::DrawBrick(HBRUSH hBrush) {
+	
+	int length = GetBrickLength();			// длина кирпича
+	int width = GetBrickWidth();			// длина кирпича
+	Rectangle(hdc, X - width, Y - length, X, Y); // канистра
+	Rectangle(hdc, X - width, Y - length, X, Y); //аргументы - это коордианты левого верхнего и правого нижнего углов
+	DeleteObject(hBrush); //Уничтожим нами созданный объект
+
+};
+
+bool Brick::Touch(int XCarCoord, int YCarCoord, int CarLenght, int CarHeight, int XBrickCoord, int YBrickCoord) {
+
+	if (XCarCoord >= (XBrickCoord - Brick::GetBrickLength()) && (XCarCoord - CarLenght - 50)
+		<= (XBrickCoord - Brick::GetBrickLength()) 
+		&& (YCarCoord >= YBrickCoord) // верхний проезд над кирпичом
+		&& ((YCarCoord <= YBrickCoord))) // нижний проезд под кирпичом
+		return true;
+	return false;
+
+}
+
+/*----------------------------------------*/
+/*        МЕТОДЫ КЛАССА Barriers          */
+/*----------------------------------------*/
+
+Barriers::Barriers(int InitX, int InitY) : Location(InitX, InitY) {
+
+}
+
+void Barriers::Show() { // отрисует канистру
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 128, 0)); // Зададим перо и цвет пера - зеленый;
+	int height = 50; // высота канистры
+	int lenght = 50; // длина канистры
+	Rectangle(hdc, X - lenght, Y - height, X, Y); // канистра
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты
+};
+
+void Barriers::Hide() { // спрячет канистру
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - зеленый;
+	int height = 50; // высота канистры
+	int lenght = 50; // длина канистры
+	Rectangle(hdc, X - lenght, Y - height, X, Y); // канистра
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты
+};
+
+
+void Barriers::MoveTo(int NewX, int NewY) {
+	Hide();			// стирание канистры
+	X = NewX;		// поменять координаты
+	Y = NewY;
+	Show();			// показать канистру на новом месте
+};
+
+
+			/*----------------------------------------*/
+			/*        МЕТОДЫ КЛАССА Canister          */
+			/*----------------------------------------*/
+
+Canister::Canister(int InitX, int InitY, int InitFuelCapacity, int InitWidth, int InitLength) : Barriers(InitX, InitY) {
+	FuelCapacity = InitFuelCapacity; 
+	Width = InitWidth;
+	Length = InitLength;
+} 
 			
 void Canister::Show() { // отрисует канистру
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 128, 0)); // Зададим перо и цвет пера - зеленый;
@@ -57,7 +166,9 @@ void Canister::Show() { // отрисует канистру
 };
 
 void Canister::Hide() { // спрячет канистру
-	
+	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - зеленый;
+	DrawCanister(Pen);
+	DeleteObject(Pen);			// Уничтожим нами созданные объекты
 };
 
 int Canister::GetFuelCapacity() { // получить емкость канистры 
@@ -65,15 +176,27 @@ int Canister::GetFuelCapacity() { // получить емкость канис�
 
 void Canister::SetFuelCapacity(int NewFuelCapacity) {  // установить новую скорость
 	FuelCapacity = NewFuelCapacity;		};
+int Canister::GetCanisterWidth() {		// получить ширину
+	return Width;
+};
 
+void Canister::SetCanisterWidth(int NewWidth) {		// установить ширину
+	Width = NewWidth;
+};
+
+int Canister::GetCanisterLength() {					// получить длину
+	return Length;
+};
+
+void Canister::SetCanisterLength(int NewLength) {		// установить длину
+	Length = NewLength;
+};
 void Canister::MoveTo(int NewX, int NewY) {
 	Hide();			// стирание канистры
 	X = NewX;		// поменять координаты
 	Y = NewY;
 	Show();			// показать канистру на новом месте
 };
-
-
 void Canister::DrawCanister(HPEN Pen) {
 	SelectObject(hdc, Pen);		// сделаем перо активным
 	int height = 50; // высота канистры
@@ -82,6 +205,7 @@ void Canister::DrawCanister(HPEN Pen) {
 	DeleteObject(Pen);			
 
 }; 
+
 			/*----------------------------------------*/
 			/*        МЕТОДЫ КЛАССА Base              */
 			/*----------------------------------------*/
@@ -173,7 +297,7 @@ void Base::Drag() // переместить объект
 	{
 		if (KEY_DOWN(VK_ESCAPE))     // конец работы 27 escape
 		{	
-			std::cout << "FigX = " << GetX();
+			//cout << "FigX = " << GetX();
 			break;
 		}
 		// направление движения объекта
@@ -208,6 +332,7 @@ void Base::Drag() // переместить объект
 
 };
 
+
 		/*----------------------------------------*/
 		/*        МЕТОДЫ КЛАССА Car               */
 		/*----------------------------------------*/
@@ -217,7 +342,7 @@ Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string Init
 
 void Car::DrawCarCabin(HPEN Pen) { // кабина 
 	
-	cout << "x = " << X << " y = " << Y << endl;
+	//cout << "x = " << X << " y = " << Y << endl;
 	SelectObject(hdc, Pen);		// сделаем перо активным
 	int height = 70;
 	int lenght = GetBaseLenght() / 3;
@@ -225,7 +350,7 @@ void Car::DrawCarCabin(HPEN Pen) { // кабина
 	DeleteObject(Pen);			// Уничтожим нами созданные объекты
 } 
 
-void Car::Show()				// показать круг
+void Car::Show()				// показать машину
 {
 	string CarColor = GetBaseColor(); // получаем цвет из класса Base
 	HPEN Pen;
@@ -235,8 +360,14 @@ void Car::Show()				// показать круг
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
 
-	DrawBaseBody(Pen);			// корпус
-	DrawBaseWheels(Pen);		// колеса
+	Base::Show();
+	//DrawBaseBody(Pen);
+	//DrawBaseWheels(Pen); // избыточность наследования убираем
+	// если что-то опровергающее наше мнение простое веерное наследование vs простая иерархия найти исключения
+	// когда нет движения , программа простая , когда все делается на этапе компиляции
+	// ответ когда большинство параметров нужно для потомка. Пример точка, все ее поля нужны для следующих объектов
+	// 
+
 	DrawCarCabin(Pen);			// кабина
 	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
 }
@@ -244,12 +375,24 @@ void Car::Show()				// показать круг
 void Car::Hide()				// скрыть машину
 {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255)); // зададим перо и цвет пера - белый
-	DrawBaseBody(Pen);			// корпус
-	DrawBaseWheels(Pen);		// колеса
+	Base::Hide();
 	DrawCarCabin(Pen);			// кабина
 	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
 }
+bool Car::Touch(int XCarCoord, int YCarCoord, int CarLenght, int CarHeight, int XBrickCoord, int YBrickCoord, int BrickLength) {
 
+	if (XCarCoord + 10 >= (XBrickCoord - BrickLength)
+		&& (XCarCoord - CarLenght) <= (XBrickCoord - BrickLength + 10) 
+		&& (YCarCoord + 60 >= YBrickCoord ) // верхний проезд над кирпичом
+		&& ((YCarCoord <= YBrickCoord + 30))
+		
+		) // нижний проезд под кирпичом
+		
+		return true;
+
+	return false;
+
+}
 		/*----------------------------------------*/
 		/*        МЕТОДЫ КЛАССА CarWithHood       */
 		/*----------------------------------------*/
@@ -296,18 +439,14 @@ void CarWithHood::Show() {
 	else if (CarColor == "black")
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Show();
 	DrawCarHood(Pen);				// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
 void CarWithHood::Hide() {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Зададим перо и цвет пера - белый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Hide();
 	DrawCarHood(Pen);				// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
@@ -336,10 +475,7 @@ void CarExhaustPipe::Show()			  // показать машину с выхлоп
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
 
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
+	CarWithHood::Show();
 	DrawExhaustPipe(Pen);			// выхлопная труба
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты
 } 
@@ -347,10 +483,7 @@ void CarExhaustPipe::Show()			  // показать машину с выхлоп
 void CarExhaustPipe::Hide()			// спрятать 
 {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Зададим перо и цвет пера - белый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
-	DrawCarHood(Pen);				// капот
+	CarWithHood::Hide();
 	DrawExhaustPipe(Pen);			// выхлопная труба
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты
 }
@@ -400,18 +533,14 @@ void CarWithLuggade::Show() {
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
 
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Show();
 	DrawCarLuggade(Pen);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
 void CarWithLuggade::Hide() {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Зададим перо и цвет пера - белый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Hide();
 	DrawCarLuggade(Pen);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
@@ -489,9 +618,7 @@ void CarWithHoodAndLuggade::Show() {
 	else if (CarColor == "black")
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Show();
 	DrawCarLuggade(Pen);			// капот
 	DrawCarHood(Pen);				// багажник
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
@@ -499,9 +626,7 @@ void CarWithHoodAndLuggade::Show() {
 
 void CarWithHoodAndLuggade::Hide() {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255));	// Зададим перо и цвет пера - белый
-	DrawBaseBody(Pen);				// корпус
-	DrawBaseWheels(Pen);			// колеса
-	DrawCarCabin(Pen);				// кабина
+	Car::Hide();
 	DrawCarLuggade(Pen);			// капот
 	DrawCarHood(Pen);				// багажник
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
