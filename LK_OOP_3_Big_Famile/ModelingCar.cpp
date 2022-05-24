@@ -46,6 +46,49 @@ void Location::SetX(int NewX)  // установить новое значени
 void Location::SetY(int NewY) // установить новое значение Y 
 {	Y = NewY;	}; 
 
+/******************************************/
+/*        МЕТОДЫ КЛАССА Point                           */
+/******************************************/
+Point::Point(int InitX, int InitY) : Location(InitX, InitY) //конструктор
+{
+}
+
+Point::~Point(void) //деструктор
+{
+}
+
+//Метод - получение цвета
+COLORREF Point::get_color(COLORREF color)
+{
+	return color;
+}
+
+//Метод - установить новый цвет
+void Point::set_color(COLORREF new_color)
+{
+	color = new_color;
+}
+
+
+/******************************************/
+/*        МЕТОДЫ КЛАССА Draw              */
+/******************************************/
+
+IDraw::IDraw(int InitX, int InitY) :Point(InitX, InitY)
+{
+}
+
+IDraw::~IDraw(void)
+{
+}
+
+
+
+int ABase::GetTypeId()
+{
+	return id;
+}
+
 
 			/*----------------------------------------*/
 			/*        МЕТОДЫ КЛАССА Brick             */
@@ -207,13 +250,13 @@ void Canister::DrawCanister(HPEN Pen) {
 }; 
 
 			/*----------------------------------------*/
-			/*        МЕТОДЫ КЛАССА Base              */
+			/*        МЕТОДЫ КЛАССА ABase              */
 			/*----------------------------------------*/
-Base::Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor) : Location(InitX, InitY) // конструктор
+ABase::ABase(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitABaseColor) : IDraw(InitX, InitY)  // конструктор
 {
 	BodyCarLenght = InitBodyCarLenght;
 	Speed = InitSpeed;
-	BaseColor = InitBaseColor;
+	BaseColor = InitABaseColor;
 }
 
 BOOL Line(HDC hdc, int x1, int y1, int x2, int y2)
@@ -222,7 +265,7 @@ BOOL Line(HDC hdc, int x1, int y1, int x2, int y2)
 	return LineTo(hdc, x2, y2);
 } 
 
-void Base::DrawBaseBody(HPEN Pen) {		// основание на котором сидят колеса
+void ABase::DrawBaseBody(HPEN Pen) {		// основание на котором сидят колеса
 
 	SelectObject(hdc, Pen);				// сделаем перо активным
 	int height = 50;
@@ -242,7 +285,7 @@ void Base::DrawBaseBody(HPEN Pen) {		// основание на котором �
 
 } 
 
-void Base::DrawBaseWheels(HPEN Pen) {	// колеса 
+void ABase::DrawBaseWheels(HPEN Pen) {	// колеса 
 	
 	SelectObject(hdc, Pen);				//сделаем перо активным
 	int radius = 70;					// радиус колес
@@ -252,12 +295,12 @@ void Base::DrawBaseWheels(HPEN Pen) {	// колеса
 	DeleteObject(Pen); 
 } 
 
-string Base::GetBaseColor()
+string ABase::GetBaseColor()
 {	return BaseColor;	}
 
-void Base::Show() { // отобразить объект
+void ABase::Show() { // отобразить объект
 
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red") 
 	Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
@@ -270,7 +313,7 @@ void Base::Show() { // отобразить объект
 	DeleteObject(Pen); // Уничтожим нами созданные объекты  
 }
 
-void Base::Hide() { // спрятать корпус машины
+void ABase::Hide() { // спрятать корпус машины
 
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255)); // Зададим перо и цвет пера - красный
 	DrawBaseBody(Pen);
@@ -278,7 +321,7 @@ void Base::Hide() { // спрятать корпус машины
 	DeleteObject(Pen); 
 } 
 
-void Base::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
+void ABase::MoveTo(int NewX, int NewY) // поставить в соответствие новые координаты
 {
 	Hide();			// стирание старого контура машины
 	X = NewX;		// поменять координаты
@@ -286,7 +329,7 @@ void Base::MoveTo(int NewX, int NewY) // поставить в соответс�
 	Show();			// показать контур машины на новом месте
 }
 
-void Base::Drag() // переместить объект
+void ABase::Drag() // переместить объект
 {
 	int FigX, FigY; // новые координаты фигуры
 
@@ -333,11 +376,12 @@ void Base::Drag() // переместить объект
 };
 
 
+
 		/*----------------------------------------*/
 		/*        МЕТОДЫ КЛАССА Car               */
 		/*----------------------------------------*/
 
-Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor, string ManufactureName) : Base(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор Car
+Car::Car(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitABaseColor, string ManufactureName) : ABase(InitX, InitY, InitBodyCarLenght, InitSpeed, InitABaseColor) // конструктор Car
 {}
 
 void Car::DrawCarCabin(HPEN Pen) { // кабина 
@@ -352,7 +396,7 @@ void Car::DrawCarCabin(HPEN Pen) { // кабина
 
 void Car::Show()				// показать машину
 {
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red")
 		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
@@ -360,9 +404,9 @@ void Car::Show()				// показать машину
 		Pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)); // Зададим перо и цвет пера - черный
 	else Pen = CreatePen(PS_SOLID, 2, RGB(255, 165, 0)); // Зададим перо и цвет пера - оранжевый
 
-	Base::Show();
-	//DrawBaseBody(Pen);
-	//DrawBaseWheels(Pen); // избыточность наследования убираем
+	ABase::Show();
+	//DrawABaseBody(Pen);
+	//DrawABaseWheels(Pen); // избыточность наследования убираем
 	// если что-то опровергающее наше мнение простое веерное наследование vs простая иерархия найти исключения
 	// когда нет движения , программа простая , когда все делается на этапе компиляции
 	// ответ когда большинство параметров нужно для потомка. Пример точка, все ее поля нужны для следующих объектов
@@ -375,7 +419,7 @@ void Car::Show()				// показать машину
 void Car::Hide()				// скрыть машину
 {
 	HPEN Pen = CreatePen(PS_SOLID, 2, RGB(255, 255, 255)); // зададим перо и цвет пера - белый
-	Base::Hide();
+	ABase::Hide();
 	DrawCarCabin(Pen);			// кабина
 	DeleteObject(Pen);			// Уничтожим нами созданные объекты  
 }
@@ -397,12 +441,12 @@ bool Car::Touch(int XCarCoord, int YCarCoord, int CarLenght, int CarHeight, int 
 		/*        МЕТОДЫ КЛАССА CarWithHood       */
 		/*----------------------------------------*/
 
-CarWithHood::CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+CarWithHood::CarWithHood(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitABaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitABaseColor) // конструктор CarExhaustPipe
 {}
 
 void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	SelectObject(hdc, Pen);			// сделаем перо активным
-	int heightBase = 50;
+	int heightABase = 50;
 	int heightCabin = 70;
 	int lenght = GetBaseLenght() / 3;
 	int a = GetBaseLenght() / 2;
@@ -410,29 +454,29 @@ void CarWithHood::DrawCarHood(HPEN Pen) { // капот
 	POINT poly[6];
 
 	poly[0].x = X;					// первая координата полигона
-	poly[0].y = Y - heightBase;
+	poly[0].y = Y - heightABase;
 
 	poly[1].x = X - lenght / 2 + 50;
-	poly[1].y = Y - heightBase - heightBase / 2;
+	poly[1].y = Y - heightABase - heightABase / 2;
 
 	poly[2].x = X - lenght / 2 - 10;
-	poly[2].y = Y - heightCabin / 2 - heightBase + heightCabin / 13;
+	poly[2].y = Y - heightCabin / 2 - heightABase + heightCabin / 13;
 
 	poly[3].x = X - a + lenght / 2 + lenght / 3;
-	poly[3].y = Y - heightCabin / 2 - heightBase + heightCabin / 18;
+	poly[3].y = Y - heightCabin / 2 - heightABase + heightCabin / 18;
 
 	poly[4].x = X - a + lenght / 2 + lenght / 4;
-	poly[4].y = Y - heightCabin / 2 - heightBase + heightCabin / 25;
+	poly[4].y = Y - heightCabin / 2 - heightABase + heightCabin / 25;
 
 	poly[5].x = X - a + lenght / 2;
-	poly[5].y = Y - heightCabin / 2 - heightBase;
+	poly[5].y = Y - heightCabin / 2 - heightABase;
 
 	Polyline(hdc, poly, 6);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 } 
 
 void CarWithHood::Show() {
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red")
 		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
@@ -456,7 +500,7 @@ void CarWithHood::Hide() {
 /*----------------------------------------*/
 
 
-CarExhaustPipe::CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : CarWithHood(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+CarExhaustPipe::CarExhaustPipe(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitABaseColor) : CarWithHood(InitX, InitY, InitBodyCarLenght, InitSpeed, InitABaseColor) // конструктор CarExhaustPipe
 {}
 
 void CarExhaustPipe::DrawExhaustPipe(HPEN Pen) {
@@ -467,7 +511,7 @@ void CarExhaustPipe::DrawExhaustPipe(HPEN Pen) {
 
 void CarExhaustPipe::Show()			  // показать машину с выхлопной трубой
 {
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red")
 		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
@@ -492,7 +536,7 @@ void CarExhaustPipe::Hide()			// спрятать
 /*        МЕТОДЫ КЛАССА CarWithLuggade    */
 /*----------------------------------------*/
 
-CarWithLuggade::CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+CarWithLuggade::CarWithLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitABaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitABaseColor) // конструктор CarExhaustPipe
 {
 
 }
@@ -502,30 +546,30 @@ void CarWithLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 
 	SelectObject(hdc, Pen);			// сделаем перо активным
 	int heightCabin = 70;
-	int heightBase = 50;
+	int heightABase = 50;
 	int lenght = GetBaseLenght() / 3;
 	int a = GetBaseLenght() / 2;
 	int radius = 70;
 	POINT poly[4];
 
 	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
-	poly[0].y = Y - heightCabin / 2 - heightBase;
+	poly[0].y = Y - heightCabin / 2 - heightABase;
 
 	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
-	poly[1].y = Y - heightCabin / 2 - heightBase;
+	poly[1].y = Y - heightCabin / 2 - heightABase;
 
 	poly[2].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3;
-	poly[2].y = Y - heightCabin / 2 - heightBase + lenght / 5;
+	poly[2].y = Y - heightCabin / 2 - heightABase + lenght / 5;
 
 	poly[3].x = X - GetBaseLenght();
-	poly[3].y = Y - heightBase;
+	poly[3].y = Y - heightABase;
 
 	Polyline(hdc, poly, 4);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 } 
 
 void CarWithLuggade::Show() {
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red")
 		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный
@@ -549,7 +593,7 @@ void CarWithLuggade::Hide() {
 /*        МЕТОДЫ КЛАССА CarWithHoodAndLuggade    */
 /*-----------------------------------------------*/
 
-CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitBaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitBaseColor) // конструктор CarExhaustPipe
+CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, std::string InitABaseColor) : Car(InitX, InitY, InitBodyCarLenght, InitSpeed, InitABaseColor) // конструктор CarExhaustPipe
 {
 
 }
@@ -557,23 +601,23 @@ CarWithHoodAndLuggade::CarWithHoodAndLuggade(int InitX, int InitY, int InitBodyC
 void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 	SelectObject(hdc, Pen);			// сделаем перо активным
 	int heightCabin = 70;
-	int heightBase = 50;
+	int heightABase = 50;
 	int lenght = GetBaseLenght() / 3;
 	int a = GetBaseLenght() / 2;
 	int radius = 70;
 	POINT poly[4];
 
 	poly[0].x = X - 2 * GetBaseLenght() / 3;					// первая координата полигона
-	poly[0].y = Y - heightCabin / 2 - heightBase;
+	poly[0].y = Y - heightCabin / 2 - heightABase;
 
 	poly[1].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3 + lenght / 5;
-	poly[1].y = Y - heightCabin / 2 - heightBase;
+	poly[1].y = Y - heightCabin / 2 - heightABase;
 
 	poly[2].x = X - 2 * GetBaseLenght() / 3 - GetBaseLenght() / 3;
-	poly[2].y = Y - heightCabin / 2 - heightBase + lenght / 5;
+	poly[2].y = Y - heightCabin / 2 - heightABase + lenght / 5;
 
 	poly[3].x = X - GetBaseLenght();
-	poly[3].y = Y - heightBase;
+	poly[3].y = Y - heightABase;
 
 	Polyline(hdc, poly, 4);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
@@ -581,7 +625,7 @@ void CarWithHoodAndLuggade::DrawCarLuggade(HPEN Pen) { // багажник
 
 void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
 	SelectObject(hdc, Pen);			// сделаем перо активным
-	int heightBase = 50;
+	int heightABase = 50;
 	int heightCabin = 70;
 	int lenght = GetBaseLenght() / 3;
 	int a = GetBaseLenght() / 2;
@@ -589,29 +633,29 @@ void CarWithHoodAndLuggade::DrawCarHood(HPEN Pen) { // капот
 	POINT poly[6];
 
 	poly[0].x = X;					// первая координата полигона
-	poly[0].y = Y - heightBase;
+	poly[0].y = Y - heightABase;
 
 	poly[1].x = X - lenght / 2 + 50;
-	poly[1].y = Y - heightBase - 30;
+	poly[1].y = Y - heightABase - 30;
 
 	poly[2].x = X - lenght / 2 - 10;
-	poly[2].y = Y - heightCabin / 2 - heightBase + heightCabin / 13;
+	poly[2].y = Y - heightCabin / 2 - heightABase + heightCabin / 13;
 
 	poly[3].x = X - a + lenght / 2 + lenght / 3;
-	poly[3].y = Y - heightCabin / 2 - heightBase + heightCabin / 18;
+	poly[3].y = Y - heightCabin / 2 - heightABase + heightCabin / 18;
 
 	poly[4].x = X - a + lenght / 2 + lenght / 4;
-	poly[4].y = Y - heightCabin / 2 - heightBase + heightCabin / 25;
+	poly[4].y = Y - heightCabin / 2 - heightABase + heightCabin / 25;
 
 	poly[5].x = X - a + lenght / 2;
-	poly[5].y = Y - heightCabin / 2 - heightBase;
+	poly[5].y = Y - heightCabin / 2 - heightABase;
 
 	Polyline(hdc, poly, 6);			// капот
 	DeleteObject(Pen);				// Уничтожим нами созданные объекты  
 }
 
 void CarWithHoodAndLuggade::Show() {
-	string CarColor = GetBaseColor(); // получаем цвет из класса Base
+	string CarColor = GetBaseColor(); // получаем цвет из класса ABase
 	HPEN Pen;
 	if (CarColor == "red")
 		Pen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)); // Зададим перо и цвет пера - красный

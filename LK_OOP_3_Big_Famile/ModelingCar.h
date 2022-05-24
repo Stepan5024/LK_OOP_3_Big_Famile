@@ -24,6 +24,30 @@ public:
 	void SetY(int NewY);			// установить новое значение Y
 	
 };
+class Point : public Location
+{
+protected:
+	COLORREF color; //Цвет
+
+public:
+	Point(int InitX, int InitY);	//конструктор класса
+	~Point();						//деструктор
+	COLORREF get_color(COLORREF color);  //Получить цвет
+	void set_color(COLORREF new_color);  //Установить новый цвет
+};
+/************** Интерфейс РИСУНОК *******************/
+class IDraw : public Point
+{
+public:
+	IDraw(int InitX, int InitY);
+	~IDraw();
+	virtual void DrawBaseBody(HPEN Pen) = 0;		// отрисует заданным цветом основу на которую садятся колеса
+	virtual void DrawBaseWheels(HPEN Pen) = 0;		// отрисует заданным колеса
+	virtual void Show() = 0;              //показать фигуру 
+	virtual void Hide() = 0;              //спрятать фигуру
+	virtual void MoveTo(int NewX, int NewY) = 0;//переместить точку
+};
+
 class Barriers : public Location {
 private:
 	int Width = 50;			// ширина
@@ -31,13 +55,12 @@ private:
 	int id = 0;							// id класса
 public:
 	Barriers(int InitX, int InitY);
-	virtual void Show();
-	virtual void Hide();
+	virtual void Show() = 0;
+	virtual void Hide() = 0;
 	void MoveTo(int NewX, int NewY);			// переместить объект по новым координатам
 	virtual int GetLength() {
 		return Length;
 	};
-
 	virtual int GetTypeId() {
 		return id;
 	}
@@ -89,20 +112,20 @@ public:
 };
 
 /*-----------------------  Класс Base ----------------------------------*/
-class Base : public Location {
+class ABase : public IDraw { // абстрактный класс
 private:
 
 	int BodyCarLenght;				// длина корпуса
 	int Speed;						// скорость
 	string BaseColor;				// цвет корпуса
-
+	int id = -1;
 public:
 
-	Base(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor = "red");
+	ABase(int InitX, int InitY, int InitBodyCarLenght, int InitSpeed, string InitBaseColor = "red");
 	virtual void DrawBaseBody(HPEN Pen);		// отрисует заданным цветом основу на которую садятся колеса
 	virtual void DrawBaseWheels(HPEN Pen);		// отрисует заданным колеса
-	virtual void Show();				// отрисует базовый автомобиль
-	virtual void Hide();				// спрячет базовый автомобиль
+	void Show();				// отрисует базовый автомобиль
+	void Hide();				// спрячет базовый автомобиль
 	int GetMaxSpeed() { return Speed; };				// получить текущую скорость
 	void SetSpeed(int NewSpeed) { Speed = NewSpeed; };	// установить новую скорость
 	int GetBaseLenght() { return BodyCarLenght; };		// получить длину корпуса
@@ -111,11 +134,13 @@ public:
 	void MoveTo(int NewX, int NewY);	// переместить объект по новым координатам
 	string GetBaseColor();	// получить цвет машины
 	string SetBaseColor(string NewBaseColor) { BaseColor = NewBaseColor; }	// получить цвет машины
+	virtual int GetTypeId();
+	virtual bool Touch(int AnotherXCarCoord, int AnotherYCarCoord, int CarLenght, int CarHeight, int AnotherXBrickCoord, int AnotherYBrickCoord, int BrickLength) = 0;
 
 };
 
 /*-----------------------  Класс Car  -------------------------------*/
-class Car : public Base {
+class Car : public ABase {
 private:	
 	int id = 0;							// id класса
 	string ManufacturerName;			// название автопроизводителя

@@ -56,7 +56,7 @@ int main()
 		//если контекст существует - можем работать
 		if (hdc != 0)
 		{
-
+			
 			/************  Б А З О В Ы Й   К Л А С С  ***********/
 			//Base ABase(990, 200, 300, 40, "black");
 			//ABase.Show();
@@ -64,8 +64,9 @@ int main()
 			//Car  ACar(950, 400, 300, 50, "red");  // инициализация машины
 			//ACar.Show();			// показать машину
 			/************	 М А Ш И Н А  С   К А П О Т О М	 ***********/
-			//CarWithHood ACarWithHood(350, 350, 300, 50, "red");
+			CarWithHood ACarWithHood(950, 350, 300, 50, "red");
 			//ACarWithHood.Show();
+
 			/************	 М А Ш И Н А  С   Б А Г А Ж Н И К О М	 ***********/
 			//CarWithLuggade ACarWithLuggade(950, 590, 300, 50, "black");
 			//ACarWithLuggade.Show();
@@ -79,6 +80,11 @@ int main()
 			//CarExhaustPipe ACarExhaustPipe(550, 550, 500, 50, "red");
 			//ACarExhaustPipe.Show();
 			//ACarExhaustPipe.Drag();
+
+			IDraw* pIDraw;
+
+			pIDraw = &ACarWithHood;
+			pIDraw->Show();
 
 			Car* indCar;
 			Barriers* indBarriers;
